@@ -1,0 +1,44 @@
+@import "../../../../../styles/global.module";
+
+.Item {
+  box-sizing: border-box;
+  width: 100%;
+  a {
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    text-decoration: none;
+    color: map-get($colors, blackMain);
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+
+    &:hover,
+    &:active,
+    .active {
+      background-color: map-get($colors, grayCLighter);
+    }
+  }
+}
+
+.hoverFlag {
+  height: 50px;
+  width: 5px;
+}
+
+.icon {
+  margin: 0 20px;
+}
+
+@media (min-width: 720px) {
+  .Item {
+  }
+
+  .Item a {
+  }
+
+  .Item a:hover,
+  .Item a:active,
+  .Item a.active {
+  }
+}
