@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./Sidebar.module.scss";
 import Backdrop from "../../UI/Backdrop/Backdrop";
 import campusLogo from "../../../Assets/imgs/logoCampus.png";
+import uaoLogo from "../../../Assets/imgs/UaoLetras.png";
 import Items from "./Items/Items";
 import Userinfo from "./UserInfo/Userinfo";
 import { routes } from "../Routes/Routes";
@@ -29,7 +30,12 @@ const Sidebar = props => {
           />
           <Items routes={routes} close={props.closed} />
         </div>
-        <Userinfo />
+        <div style={{ width: "100%" }}>
+          <div className={styles.LogoAuto}>
+            <img src={uaoLogo} alt="Universidad Autónoma de Occidentes"></img>
+          </div>
+          <Userinfo />
+        </div>
       </div>
     </React.Fragment>
   );
