@@ -13,7 +13,6 @@ export class Layout extends Component {
     this.setState(prevState => {
       return { showSidebar: !prevState.showSidebar };
     });
-    console.log(this.state.showSidebar);
   };
 
   sideDraweClosedHandler = () => {

@@ -7,7 +7,7 @@ const Items = props => {
     <div className={styles.Items}>
       {props.routes.map(rt => {
         return (
-          <Item key={rt.name} link={rt.path} icon={rt.icon}>
+          <Item key={rt.name} link={rt.path} icon={rt.icon} close={props.close}>
             {rt.name}
           </Item>
         );
