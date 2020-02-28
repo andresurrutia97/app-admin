@@ -1,9 +1,9 @@
 export const routes = [
-  { path: "/", name: "Usuarios", icon: "people_alt" },
-  { path: "/", name: "Dispositivos", icon: "devices_other" },
-  { path: "/", name: "Variables", icon: "filter_vintage" },
-  { path: "/", name: "Datos", icon: "assessment" },
-  { path: "/", name: "Evidencias", icon: "description" },
-  { path: "/", name: "Constantes", icon: "functions" },
-  { path: "/", name: "Calculadoras", icon: "eco" }
+  { path: "/usuarios", name: "Usuarios", icon: "people_alt" },
+  { path: "/dispositivos", name: "Dispositivos", icon: "devices_other" },
+  { path: "/variables", name: "Variables", icon: "explicit" },
+  { path: "/datos", name: "Datos", icon: "assessment" },
+  { path: "/evidencias", name: "Evidencias", icon: "description" },
+  { path: "/constantes", name: "Constantes", icon: "functions" },
+  { path: "/calculadoras", name: "Calculadoras", icon: "eco" }
 ];

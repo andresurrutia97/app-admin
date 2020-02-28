@@ -9,7 +9,6 @@ const Sidebar = props => {
   let attachedClasses = [styles.Sidebar, styles.Close];
   if (props.open) {
     attachedClasses = [styles.Sidebar, styles.Open];
-    console.log("open sidebar");
   }
   return (
     <React.Fragment>

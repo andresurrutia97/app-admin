@@ -13,16 +13,25 @@
     width: 100%;
     box-sizing: border-box;
 
-    &:hover,
-    &:active,
-    .active {
+    &:hover {
       background-color: map-get($colors, grayCLighter);
+      .hoverFlag {
+        background-color: map-get($colors, grayC);
+      }
+    }
+
+    &:active,
+    &.active {
+      background-color: map-get($colors, grayCLighter);
+      .hoverFlag {
+        background-color: map-get($colors, mainGreen);
+      }
     }
   }
 }
 
 .hoverFlag {
-  height: 50px;
+  height: 42px;
   width: 5px;
 }
 

@@ -33,7 +33,7 @@ export class Layout extends Component {
             className={styles.Header}
             open={this.sideDraweOpenedHandler}
           />
-          <div className={styles.Main}>content</div>
+          <div className={styles.Main}>{this.props.children}</div>
           <div className={styles.Footer}>Footer</div>
         </div>
       </div>
