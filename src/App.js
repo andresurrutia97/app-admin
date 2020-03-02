@@ -1,29 +1,38 @@
 import React from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
+
+import { createMuiTheme } from "@material-ui/core/styles";
+import { ThemeProvider } from "@material-ui/styles";
+
 import Layout from "./Hoc/Layout/Layout";
-import Usuarios from "./Container/Usuarios/Usuarios";
-import Variables from "./Container/Variables/Variables";
-import Dispositivos from "./Container/Dispositivos/Dispositivos";
-import Datos from "./Container/Datos/Datos";
-import Evidencias from "./Container/Evidencias/Evidencias";
-import Constantes from "./Container/Constantes/Constantes";
-import Calculadoras from "./Container/Calculadoras/Calculadoras";
+import Routes from "./Routes";
+
+const theme = createMuiTheme({
+  typography: {
+    fontFamily: [
+      "Montserrat",
+      "Roboto",
+      '"Helvetica Neue"',
+      "Arial",
+      "sans-serif"
+    ].join(",")
+  }
+});
 
 function App() {
   return (
-    <div>
+    <ThemeProvider theme={theme}>
       <Layout>
         <Switch>
-          <Route path="/usuarios" component={Usuarios} />
-          <Route path="/variables" component={Variables} />
-          <Route path="/dispositivos" component={Dispositivos} />
-          <Route path="/datos" component={Datos} />
-          <Route path="/evidencias" component={Evidencias} />
-          <Route path="/constantes" component={Constantes} />
-          <Route path="/calculadoras" component={Calculadoras} />
+          <Route path="/" exact component={() => <Redirect to="/usuarios" />} />
+          {Routes.map((rt, index) => {
+            return (
+              <Route key={index} path={rt.path} component={rt.component} />
+            );
+          })}
         </Switch>
       </Layout>
-    </div>
+    </ThemeProvider>
   );
 }
 

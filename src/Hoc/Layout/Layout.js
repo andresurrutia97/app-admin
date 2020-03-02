@@ -22,18 +22,20 @@ export class Layout extends Component {
   render() {
     return (
       <div className={styles.Layout}>
-        <Sidebar
-          clasName={styles.Sidebar}
-          closed={this.sideDraweClosedHandler}
-          open={this.state.showSidebar}
-        />
-        <div className={styles.Contenido}>
-          <Toolbar
-            className={styles.Header}
-            open={this.sideDraweOpenedHandler}
+        <div className={styles.SidebarContainer}>
+          <Sidebar
+            clasName={styles.Sidebar}
+            closed={this.sideDraweClosedHandler}
+            open={this.state.showSidebar}
           />
+        </div>
+ 
+          <Toolbar open={this.sideDraweOpenedHandler} />
+
+
+        <div className={styles.Contenido}>
           <div className={styles.Main}>{this.props.children}</div>
-          <div className={styles.Footer}>Footer</div>
+          {/* <div className={styles.Footer}>Footer</div> */}
         </div>
       </div>
     );

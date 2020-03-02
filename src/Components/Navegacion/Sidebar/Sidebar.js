@@ -5,7 +5,7 @@ import campusLogo from "../../../Assets/imgs/logoCampus.png";
 import uaoLogo from "../../../Assets/imgs/UaoLetras.png";
 import Items from "./Items/Items";
 import Userinfo from "./UserInfo/Userinfo";
-import { routes } from "../Routes/Routes";
+import Routes from "../../../Routes";
 
 const Sidebar = props => {
   let attachedClasses = [styles.Sidebar, styles.Close];
@@ -28,7 +28,7 @@ const Sidebar = props => {
               height: "1px"
             }}
           />
-          <Items routes={routes} close={props.closed} />
+          <Items routes={Routes} close={props.closed} />
         </div>
         <div style={{ width: "100%" }}>
           <div className={styles.LogoAuto}>

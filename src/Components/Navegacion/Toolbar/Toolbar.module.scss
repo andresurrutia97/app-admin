@@ -4,13 +4,15 @@
   box-sizing: border-box;
 }
 .Toolbar {
+  z-index: 1000;
   position: fixed;
   height: 56px;
   width: 100%;
-  background-color: map-get($colors, grayCLighter);
+  background-color: map-get($colors, mainGreen);
   box-shadow: 0px 1px 12px 4px rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
+  flex-shrink: 0;
 }
 
 .Titulo {
@@ -18,6 +20,7 @@
   text-align: center;
   padding-right: 54px;
   color: map-get($colors, blackMain);
+  color: white;
 }
 
 .icono {
@@ -26,14 +29,14 @@
 
 @media (min-width: 720px) {
   .Toolbar {
-    width: calc(100% - 250px);
-    height: 5rem;
-    box-shadow: none;
+    width: calc(100% - 240px);
+    height: 56px;
+    //box-shadow: none;
   }
   .Titulo {
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
     margin-left: 20px;
-    font-weight: 600;
+    font-size: 18px;
   }
 }
