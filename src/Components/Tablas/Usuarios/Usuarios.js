@@ -16,6 +16,8 @@ import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
 import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
 import LastPageIcon from "@material-ui/icons/LastPage";
 
+import styles from "../../../styles/tables.module.scss";
+
 const useStyles1 = makeStyles(theme => ({
   root: {
     flexShrink: 0,
@@ -91,7 +93,7 @@ TablePaginationActions.propTypes = {
   onChangePage: PropTypes.func.isRequired,
   page: PropTypes.number.isRequired,
   rowsPerPage: PropTypes.number.isRequired
-}
+};
 
 const useStyles2 = makeStyles({
   table: {
@@ -100,7 +102,6 @@ const useStyles2 = makeStyles({
 });
 
 const CustomPaginationActionsTable = props => {
-
   const data = [...props.users].sort((a, b) =>
     a.calories < b.calories ? -1 : 1
   );
@@ -119,19 +120,59 @@ const CustomPaginationActionsTable = props => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+  const headers = [
+    {
+      label: "Nombre",
+      align: "left"
+    },
+    {
+      label: "Correo",
+      align: "right"
+    },
+    {
+      label: "Dependencia",
+      align: "right"
+    },
+    {
+      label: "Cargo",
+      align: "right"
+    },
+    {
+      label: "Ingreso",
+      align: "right"
+    },
+    {
+      label: "Extensión",
+      align: "right"
+    },
+    {
+      label: "Perfil",
+      align: "right"
+    }
+  ];
 
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="custom pagination table">
         <TableHead>
           <TableRow>
-            <TableCell>Nombre</TableCell>
-            <TableCell align="right">Correo</TableCell>
-            <TableCell align="right">Dependencia</TableCell>
+            {headers.map((hd, index) => {
+              return (
+                <TableCell
+                  className={styles.Header}
+                  key={index}
+                  align={hd.align}
+                >
+                  {hd.label}
+                </TableCell>
+              );
+            })}
+
+            {/* <TableCell align="right">Dependencia</TableCell>
             <TableCell align="right">Cargo</TableCell>
             <TableCell align="right">Ingreso Plataforma</TableCell>
             <TableCell align="right">Extensión</TableCell>
-            <TableCell align="right">Perfil</TableCell>
+            <TableCell align="right">Perfil</TableCell> */}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -139,7 +180,12 @@ const CustomPaginationActionsTable = props => {
             ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             : data
           ).map((dt, index) => (
-            <TableRow key={index}>
+            <TableRow
+              key={index}
+              hover
+              className={styles.Rows}
+              onClick={() => props.clickedUser(dt.id)}
+            >
               <TableCell>{dt.nombre}</TableCell>
               <TableCell align="right">{dt.correo}</TableCell>
               <TableCell align="right">{dt.dependencia}</TableCell>
@@ -162,10 +208,11 @@ const CustomPaginationActionsTable = props => {
               rowsPerPageOptions={[5, 10, 25, { label: "Todos", value: -1 }]}
               colSpan={7}
               count={data.length}
+              labelRowsPerPage="Filas por página"
               rowsPerPage={rowsPerPage}
               page={page}
               SelectProps={{
-                inputProps: { "aria-label": "Filas por página" },
+                inputProps: { "aria-label": "hola" },
                 native: true
               }}
               onChangePage={handleChangePage}

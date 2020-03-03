@@ -1,3 +1,5 @@
+@import "../../styles/global.module";
+
 .Users {
   height: 2000px;
   width: 100%;
@@ -7,4 +9,32 @@
   color: #666666;
   font-size: 22px;
   margin-bottom: 20px;
+}
+
+.TableUsers {
+  width: 100%;
+  margin-bottom: 16px;
+}
+.TableUserVar {
+  width: 100%;
+}
+
+@media (min-width: 1050px) {
+  .Title {
+    font-weight: 600;
+  }
+
+  .TableContainer {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 25px;
+  }
+
+  .TableUsers {
+    grid-column: span 9;
+    margin-bottom: 20px;
+  }
+  .TableUserVar {
+    grid-column: span 3;
+  }
 }

@@ -1,13 +1,9 @@
-import React, { Component } from 'react'
+import React, { Component } from "react";
 
 export class Variables extends Component {
-    render() {
-        return (
-            <div>
-                Variables
-            </div>
-        )
-    }
+  render() {
+    return <div>Variables</div>;
+  }
 }
 
-export default Variables
+export default Variables;
