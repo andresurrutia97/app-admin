@@ -10,6 +10,7 @@ import Paper from "@material-ui/core/Paper";
 import styles from "../../../../styles/tables.module.scss";
 
 const CustomPaginationActionsTable = props => {
+  //console.log(props.data)
   const info = props.data ? (
     props.data.map((dt, index) => (
       <TableRow key={index}>
@@ -18,7 +19,9 @@ const CustomPaginationActionsTable = props => {
     ))
   ) : (
     <TableRow>
-      <TableCell>{"Seleccionar Usuario"}</TableCell>
+      <TableCell style={{ color: "#9e9e9e" }}>
+        {"Seleccionar Usuario"}
+      </TableCell>
     </TableRow>
   );
 

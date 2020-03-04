@@ -1,119 +1,76 @@
 import React, { Component } from "react";
-
+import { connect } from "react-redux";
 import styles from "./Usuarios.module.scss";
+
+import axios from "../../axios";
+import WithErrorHandler from "../../Hoc/WithErrorHandler/WithErrorHandler";
+import * as actions from "./store/actions";
 import TablaUsuarios from "../../Components/Tablas/Usuarios/Usuarios";
 import TablaVariables from "../../Components/Tablas/Usuarios/Variables/Variables";
+import Spinner from "../../Components/UI/Spinner/Spinner";
 
 export class Usuarios extends Component {
-  state = {
-    users: [
-      {
-        id: "1",
-        nombre: "Andres",
-        correo: "test@test.com",
-        dependencia: "Ingenieria",
-        cargo: "Contratista",
-        ingresoP: "Ayer",
-        extension: "12345",
-        perfil: "Admin",
-        variables: [{ nombre: "agua" }, { nombre: "Gas" }, { nombre: "perro" }]
-      },
-      {
-        id: "2",
-        nombre: "Felipe",
-        correo: "test@test.com",
-        dependencia: "Ingenieria",
-        cargo: "Contratista",
-        ingresoP: "Ayer",
-        extension: "12345",
-        perfil: "Admin",
-        variables: [
-          { nombre: "agua" },
-          { nombre: "gato" },
-          { nombre: "Viento" },
-          { nombre: "Luz" }
-        ]
-      },
-      {
-        id: "3",
-        nombre: "Vanesa",
-        correo: "test@test.com",
-        dependencia: "Ingenieria",
-        cargo: "Contratista",
-        ingresoP: "Ayer",
-        extension: "12345",
-        perfil: "Admin",
-        variables: [
-          { nombre: "agua" },
-          { nombre: "casa" },
-          { nombre: "Viento" }
-        ]
-      },
-      {
-        id: "4",
-        nombre: "Pedro",
-        correo: "test@test.com",
-        dependencia: "Ingenieria",
-        cargo: "Contratista",
-        ingresoP: "Ayer",
-        extension: "12345",
-        perfil: "Admin",
-        variables: [
-          { nombre: "agua" },
-          { nombre: "horno" },
-          { nombre: "Viento" }
-        ]
-      },
-      {
-        id: "5",
-        nombre: "Carlos",
-        correo: "test@test.com",
-        dependencia: "Ingenieria",
-        cargo: "Contratista",
-        ingresoP: "Ayer",
-        extension: "12345",
-        perfil: "Admin",
-        variables: [{ nombre: "agua" }, { nombre: "Gas" }, { nombre: "Viento" }]
-      }
-    ],
-    idUser: null,
-    varInfo: false
-  };
-
-  handleClick = id => {
-    this.setState({ idUser: id, varInfo: true });
-  };
+  componentDidMount() {
+    this.props.onFetchUsers();
+  }
 
   aux = () => {
-    if (this.state.idUser != null) {
-      for (let user in this.state.users) {
-        if (this.state.users[user].id === this.state.idUser) {
-          return this.state.users[user].variables;
-        }
-      }
-    }
+    //this.props.onFetchUserInfo();
+    // let varInfo = [];
+    // if (this.props.userId != null) {
+    //   for (let user in this.props.users) {
+    //     if (this.props.users[user].id === this.props.userId) {
+    //       varInfo = this.props.users[user].variables;
+    //       console.log(varInfo);
+    //       return varInfo;
+    //     }
+    //   }
+    // }
+    return this.props.varInfo;
   };
 
   render() {
-    //console.log(this.state.postres)
-
-    return (
-      <div className={styles.Users}>
-        <div className={styles.Title}>Usuarios</div>
+    let users = <Spinner />;
+    if (!this.props.loadingUsers) {
+      users = (
         <div className={styles.TableContainer}>
           <div className={styles.TableUsers}>
             <TablaUsuarios
-              users={this.state.users}
-              clickedUser={this.handleClick}
+              users={this.props.users}
+              clickedUser={this.props.onFetchUserInfo}
             />
           </div>
           <div className={styles.TableUserVar}>
-            <TablaVariables data={this.aux()} />
+            <TablaVariables data={this.props.varInfo} />
           </div>
         </div>
+      );
+    }
+    return (
+      <div className={styles.Users}>
+        <div className={styles.Title}>Usuarios</div>
+        {users}
       </div>
     );
   }
 }
 
-export default Usuarios;
+const mapStateToProps = state => {
+  return {
+    users: state.users.users,
+    loadingUsers: state.users.loading,
+    varInfo: state.users.varInfo
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onFetchUsers: () => dispatch(actions.fetchUsers()),
+    onFetchUserInfo: id => dispatch(actions.showUserVars(id))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(WithErrorHandler(Usuarios, axios));

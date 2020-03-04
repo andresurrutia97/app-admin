@@ -120,6 +120,7 @@ const CustomPaginationActionsTable = props => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+
   const headers = [
     {
       label: "Nombre",
@@ -150,7 +151,26 @@ const CustomPaginationActionsTable = props => {
       align: "right"
     }
   ];
+  const [selected, setSelected] = React.useState([]);
 
+  const handleClick = id => {
+    props.clickedUser(id);
+    setSelected(id);
+  };
+
+  const stylesRow = theme => ({
+    tableRow: {
+      "&$selected, &$selected:hover": {
+        backgroundColor: "purple"
+      }
+    },
+    tableCell: {
+      "$selected &": {
+        color: "yellow"
+      }
+    },
+    selected: {}
+  });
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="custom pagination table">
@@ -167,34 +187,33 @@ const CustomPaginationActionsTable = props => {
                 </TableCell>
               );
             })}
-
-            {/* <TableCell align="right">Dependencia</TableCell>
-            <TableCell align="right">Cargo</TableCell>
-            <TableCell align="right">Ingreso Plataforma</TableCell>
-            <TableCell align="right">Extensión</TableCell>
-            <TableCell align="right">Perfil</TableCell> */}
           </TableRow>
         </TableHead>
         <TableBody>
           {(rowsPerPage > 0
             ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             : data
-          ).map((dt, index) => (
-            <TableRow
-              key={index}
-              hover
-              className={styles.Rows}
-              onClick={() => props.clickedUser(dt.id)}
-            >
-              <TableCell>{dt.nombre}</TableCell>
-              <TableCell align="right">{dt.correo}</TableCell>
-              <TableCell align="right">{dt.dependencia}</TableCell>
-              <TableCell align="right">{dt.cargo}</TableCell>
-              <TableCell align="right">{dt.ingresoP}</TableCell>
-              <TableCell align="right">{dt.extension}</TableCell>
-              <TableCell align="right">{dt.perfil}</TableCell>
-            </TableRow>
-          ))}
+          ).map((dt, index) => {
+            return (
+              <TableRow
+                key={index}
+                hover
+                className={styles.Rows}
+                onClick={id => handleClick(dt.id)}
+                selected={selected === dt.id}
+                classes={{ selected: classes.selected }}
+                className={stylesRow.tableRow}
+              >
+                <TableCell>{dt.nombre}</TableCell>
+                <TableCell align="right">{dt.correo}</TableCell>
+                <TableCell align="right">{dt.dependencia}</TableCell>
+                <TableCell align="right">{dt.cargo}</TableCell>
+                <TableCell align="right">{dt.ingresoP}</TableCell>
+                <TableCell align="right">{dt.extension}</TableCell>
+                <TableCell align="right">{dt.perfil}</TableCell>
+              </TableRow>
+            );
+          })}
 
           {emptyRows > 0 && (
             <TableRow style={{ height: 53 * emptyRows }}>
