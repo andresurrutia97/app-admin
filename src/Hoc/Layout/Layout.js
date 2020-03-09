@@ -9,13 +9,14 @@ export class Layout extends Component {
     showSidebar: false
   };
 
-  sideDraweOpenedHandler = () => {
+  //Controlador de sidebar - abrir
+  sidebarOpenedHandler = () => {
     this.setState(prevState => {
       return { showSidebar: !prevState.showSidebar };
     });
   };
-
-  sideDraweClosedHandler = () => {
+  //Controlador de sidebar - cerrar
+  sidebarClosedHandler = () => {
     this.setState({ showSidebar: false });
   };
 
@@ -25,15 +26,14 @@ export class Layout extends Component {
         <div className={styles.SidebarContainer}>
           <Sidebar
             clasName={styles.Sidebar}
-            closed={this.sideDraweClosedHandler}
+            closed={this.sidebarClosedHandler}
             open={this.state.showSidebar}
           />
         </div>
- 
-          <Toolbar open={this.sideDraweOpenedHandler} />
 
+        <Toolbar open={this.sidebarOpenedHandler} />
 
-        <div className={styles.Contenido}>
+        <div className={styles.Content}>
           <div className={styles.Main}>{this.props.children}</div>
           {/* <div className={styles.Footer}>Footer</div> */}
         </div>

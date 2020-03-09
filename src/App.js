@@ -7,6 +7,7 @@ import { ThemeProvider } from "@material-ui/styles";
 import Layout from "./Hoc/Layout/Layout";
 import Routes from "./Routes";
 
+//creacion de estilos para modificar la fuente de Material UI - uso de ThemeProvider
 const theme = createMuiTheme({
   typography: {
     fontFamily: [

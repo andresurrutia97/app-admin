@@ -15,6 +15,7 @@ import FirstPageIcon from "@material-ui/icons/FirstPage";
 import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
 import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
 import LastPageIcon from "@material-ui/icons/LastPage";
+import Popover from "@material-ui/core/Popover";
 
 import styles from "../../../styles/tables.module.scss";
 
@@ -102,7 +103,7 @@ const useStyles2 = makeStyles({
 });
 
 const CustomPaginationActionsTable = props => {
-  const data = [...props.users];
+  const data = props.vars;
   const classes = useStyles2();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -122,32 +123,31 @@ const CustomPaginationActionsTable = props => {
   //Cosntantes para la creacion de los headers
   const headers = [
     {
-      label: "Nombre",
+      label: "Variable",
       align: "left"
     },
     {
-      label: "Correo",
+      label: "Unidad de medida",
       align: "right"
     },
     {
-      label: "Dependencia",
+      label: "Indicador",
       align: "right"
     },
     {
-      label: "Cargo",
+      label: "Req. Evidencia",
       align: "right"
     },
     {
-      label: "Ingreso",
+      label: "Periodicidad",
       align: "right"
     },
     {
-      label: "Extensión",
-      align: "right"
+      label: "Descripción",
+      align: "left"
     },
     {
-      label: "Perfil",
-      align: "right"
+      label: ""
     }
   ];
 
@@ -159,6 +159,24 @@ const CustomPaginationActionsTable = props => {
     setSelected(id);
   };
 
+  const truncateName = str => {
+    return str.length > 120 ? str.substring(0, 120) + "..." : str;
+  };
+
+  const actions = (
+    <Popover
+      anchorOrigin={{
+        vertical: "bottom",
+        horizontal: "right"
+      }}
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "right"
+      }}
+    >
+      The content of the Popover.
+    </Popover>
+  );
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="custom pagination table">
@@ -191,13 +209,15 @@ const CustomPaginationActionsTable = props => {
                 selected={selected === dt.id}
                 onClick={id => handleClick(dt.id)}
               >
-                <TableCell>{dt.nombre}</TableCell>
-                <TableCell align="right">{dt.correo}</TableCell>
-                <TableCell align="right">{dt.dependencia}</TableCell>
-                <TableCell align="right">{dt.cargo}</TableCell>
-                <TableCell align="right">{dt.ingresoP}</TableCell>
-                <TableCell align="right">{dt.extension}</TableCell>
-                <TableCell align="right">{dt.perfil}</TableCell>
+                <TableCell>{dt.variable}</TableCell>
+                <TableCell align="right">{dt.unidad_medida}</TableCell>
+                <TableCell align="right">{dt.indicador}</TableCell>
+                <TableCell align="right">{dt.req_evidencia}</TableCell>
+                <TableCell align="right">{dt.periodicidad}</TableCell>
+                <TableCell align="left" style={{ width: "40%" }}>
+                  {truncateName(dt.descripcion)}
+                </TableCell>
+                <TableCell align="right">{"+"}</TableCell>
               </TableRow>
             );
           })}

@@ -8,26 +8,12 @@ import * as actions from "./store/actions";
 import TablaUsuarios from "../../Components/Tablas/Usuarios/Usuarios";
 import TablaVariables from "../../Components/Tablas/Usuarios/Variables/Variables";
 import Spinner from "../../Components/UI/Spinner/Spinner";
+import Titulo from "../../Components/UI/Titulo/Titulo";
 
 export class Usuarios extends Component {
   componentDidMount() {
     this.props.onFetchUsers();
   }
-
-  aux = () => {
-    //this.props.onFetchUserInfo();
-    // let varInfo = [];
-    // if (this.props.userId != null) {
-    //   for (let user in this.props.users) {
-    //     if (this.props.users[user].id === this.props.userId) {
-    //       varInfo = this.props.users[user].variables;
-    //       console.log(varInfo);
-    //       return varInfo;
-    //     }
-    //   }
-    // }
-    return this.props.varInfo;
-  };
 
   render() {
     let users = <Spinner />;
@@ -47,10 +33,10 @@ export class Usuarios extends Component {
       );
     }
     return (
-      <div className={styles.Users}>
-        <div className={styles.Title}>Usuarios</div>
+      <React.Fragment>
+        <Titulo>Usuarios</Titulo>
         {users}
-      </div>
+      </React.Fragment>
     );
   }
 }
@@ -59,7 +45,7 @@ const mapStateToProps = state => {
   return {
     users: state.users.users,
     loadingUsers: state.users.loading,
-    varInfo: state.users.varInfo
+    varInfo: state.users.userVarInfo
   };
 };
 

@@ -1,5 +1,11 @@
-import * as actionTypes from "./actionTypes";
+import * as actionTypes from "../../../shared/actionTypes";
 import axios from "../../../axios";
+
+export const fetchUsersStart = () => {
+  return {
+    type: actionTypes.FETCH_USERS_START
+  };
+};
 
 export const fetchUsersSuccess = users => {
   return {
@@ -12,12 +18,6 @@ export const fetchUsersFail = error => {
   return {
     type: actionTypes.FETCH_USERS_FAIL,
     error: error
-  };
-};
-
-export const fetchUsersStart = () => {
-  return {
-    type: actionTypes.FETCH_USERS_START
   };
 };
 

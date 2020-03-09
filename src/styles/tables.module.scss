@@ -1,8 +1,11 @@
 @import "./global.module";
 
 .Rows {
+  color: map-get($colors, blackMain) !important;
+
+  &.Selected,
   &:hover {
-    background-color: map-get($colors, lightGreen) !important;
+    background-color: map-get($colors, greenlight) !important;
   }
 }
 
