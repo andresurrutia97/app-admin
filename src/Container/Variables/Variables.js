@@ -8,7 +8,7 @@ import * as actions from "./store/actions";
 import TablaVariables from "../../Components/Tablas/Variables/Variables";
 import Spinner from "../../Components/UI/Spinner/Spinner";
 import Titulo from "../../Components/UI/Titulo/Titulo";
-import añadirVariable from "./AñadirVariable/AñadirVariable";
+import AñadirVariable from "./AñadirVariable/AñadirVariable";
 import Modal from "../../Components/UI/Modal/Modal";
 
 import ButtonIcon from "../../Components/UI/ButtonIcon/ButtonIcon";
@@ -44,7 +44,7 @@ export class Variables extends Component {
             open={this.state.addOpen}
             close={this.closeModalHandler}
           >
-            <añadirVariable />
+            <AñadirVariable />
           </Modal>
           <ButtonIcon clicked={this.addVarHandler}>Añadir</ButtonIcon>
         </div>

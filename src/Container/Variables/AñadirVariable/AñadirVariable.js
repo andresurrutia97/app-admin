@@ -1,7 +1,11 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+
 import Input from "../../../Components/UI/Input/Input";
 import styles from "./AñadirVariable.module.scss";
 import Button from "../../../Components/UI/Button/Button";
+import { updateObject, checkValidity } from "../../../shared/utility";
+import * as actions from "../store/actions";
 
 export class AñadirVariable extends Component {
   state = {
@@ -66,14 +70,8 @@ export class AñadirVariable extends Component {
       reqEvidencia: {
         elementType: "check",
         elementName: "Requiere evidencia",
-        elementConfig: {
-          options: [
-            { value: "litros", displayValue: "Litros" },
-            { value: "kilos", displayValue: "Kilos" }
-          ]
-        },
-        value: "litros",
-        validation: {},
+        elementConfig: {},
+        value: "",
         valid: true,
         fullWidth: true
       },
@@ -96,6 +94,39 @@ export class AñadirVariable extends Component {
     formIsValid: false,
     loading: false
   };
+
+  componentDidMount() {
+    this.props.onFetchInfo();
+  }
+
+  inputChangedHandler = (event, inputidentifier) => {
+    const updatedFormElement = updateObject(
+      this.state.varForm[inputidentifier],
+      {
+        value: event.target.value,
+        valid: checkValidity(
+          event.target.value,
+          this.state.varForm[inputidentifier].validation
+        ),
+        touched: true
+      }
+    );
+
+    const updatedVarForm = updateObject(this.state.varForm, {
+      [inputidentifier]: updatedFormElement
+    });
+
+    let formIsValid = true;
+    for (let inputId in updatedVarForm) {
+      formIsValid = updatedVarForm[inputId].valid && formIsValid;
+    }
+    this.setState({
+      varForm: updatedVarForm,
+      formIsValid: formIsValid
+    });
+
+    console.log(updatedVarForm);
+  };
   render() {
     const formElementsArray = [];
     for (let key in this.state.varForm) {
@@ -116,6 +147,11 @@ export class AñadirVariable extends Component {
             label={el.config.elementName}
             elementtype={el.config.elementType}
             elementConfig={el.config.elementConfig}
+            value={el.config.value}
+            changed={event => this.inputChangedHandler(event, el.id)}
+            shouldValidate={el.config.validation}
+            invalid={!el.config.valid}
+            touched={el.config.touched}
           />
         </div>
       );
@@ -137,4 +173,13 @@ export class AñadirVariable extends Component {
   }
 }
 
-export default AñadirVariable;
+const mapStateToProps = state => {
+  return {};
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onFetchInfo: () => dispatch(actions.fetchinfo())
+  };
+};
+export default connect(null, mapDispatchToProps)(AñadirVariable);

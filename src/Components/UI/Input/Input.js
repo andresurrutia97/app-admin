@@ -27,6 +27,7 @@ const Input = props => {
           className={inputClasses.join(" ")}
           value={props.value}
           onChange={props.changed}
+          style={{ resize: "vertical" }}
         />
       );
       break;

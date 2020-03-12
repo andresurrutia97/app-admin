@@ -41,3 +41,70 @@ export const fetchVars = () => {
       });
   };
 };
+
+// consultar unidades de medida
+export const fetchvarUnitStart = () => {
+  return {
+    type: actionTypes.FETCH_MUNITS_START
+  };
+};
+
+export const fetchvarUnitSuccess = vars => {
+  return {
+    type: actionTypes.FETCH_MUNITS_SUCCESS,
+    vars: vars
+  };
+};
+
+export const fetchvarUnitFail = error => {
+  return {
+    type: actionTypes.FETCH_MUNITS_FAIL,
+    error: error
+  };
+};
+
+export const fetchIndicatorStart = () => {
+  return {
+    type: actionTypes.FETCH_INDICATOR_START
+  };
+};
+
+export const fetchIndicatorSuccess = vars => {
+  return {
+    type: actionTypes.FETCH_INDICATOR_SUCCESS,
+    vars: vars
+  };
+};
+
+export const fetchIndicatorFail = error => {
+  return {
+    type: actionTypes.FETCH_INDICATOR_FAIL,
+    error: error
+  };
+};
+
+export const fetchinfo = () => {
+  const unidadMedida = "/unidadMedida.json";
+  const indicador = "/indicador.json";
+
+
+  return dispatch => {
+    axios
+      .get(unidadMedida)
+      .then(responses => {
+        console.log(responses.data);
+      })
+      .catch(errors => {
+        // react on errors.
+      });
+
+    axios
+      .get(indicador)
+      .then(responses => {
+        console.log(responses.data);
+      })
+      .catch(errors => {
+        // react on errors.
+      });
+  };
+};
