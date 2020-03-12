@@ -15,9 +15,9 @@ import FirstPageIcon from "@material-ui/icons/FirstPage";
 import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
 import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
 import LastPageIcon from "@material-ui/icons/LastPage";
-import Popover from "@material-ui/core/Popover";
 
 import styles from "../../../styles/tables.module.scss";
+import Popover from "../../UI/Popover/Popover";
 
 const useStyles1 = makeStyles(theme => ({
   root: {
@@ -144,7 +144,7 @@ const CustomPaginationActionsTable = props => {
     },
     {
       label: "Descripción",
-      align: "left"
+      align: "right"
     },
     {
       label: ""
@@ -155,7 +155,6 @@ const CustomPaginationActionsTable = props => {
   const [selected, setSelected] = React.useState([]);
 
   const handleClick = id => {
-    props.clickedUser(id);
     setSelected(id);
   };
 
@@ -163,20 +162,6 @@ const CustomPaginationActionsTable = props => {
     return str.length > 120 ? str.substring(0, 120) + "..." : str;
   };
 
-  const actions = (
-    <Popover
-      anchorOrigin={{
-        vertical: "bottom",
-        horizontal: "right"
-      }}
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "right"
-      }}
-    >
-      The content of the Popover.
-    </Popover>
-  );
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="custom pagination table">
@@ -214,10 +199,10 @@ const CustomPaginationActionsTable = props => {
                 <TableCell align="right">{dt.indicador}</TableCell>
                 <TableCell align="right">{dt.req_evidencia}</TableCell>
                 <TableCell align="right">{dt.periodicidad}</TableCell>
-                <TableCell align="left" style={{ width: "40%" }}>
+                <TableCell align="right" style={{ width: "40%" }}>
                   {truncateName(dt.descripcion)}
                 </TableCell>
-                <TableCell align="right">{"+"}</TableCell>
+                <TableCell align="right">{<Popover />}</TableCell>
               </TableRow>
             );
           })}

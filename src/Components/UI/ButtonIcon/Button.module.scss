@@ -1,0 +1,9 @@
+@import "../../../styles/global.module";
+
+.Button {
+  background-color: map-get($colors, mainGreen) !important;
+  color: white !important;
+  &:hover {
+    background-color: map-get($colors, greenDark) !important;
+  }
+}
