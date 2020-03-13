@@ -33,9 +33,12 @@ const withErrorHandler = (WrappedComponent, axios) => {
     render() {
       return (
         <React.Fragment>
-          {/* <Modal show={this.state.error} close={this.errorConfirmedHandler}>
+          <Modal
+            open={this.state.error ? true : false}
+            close={this.errorConfirmedHandler}
+          >
             {this.state.error ? this.state.error.message : null}
-          </Modal> */}
+          </Modal>
           <WrappedComponent {...this.props} />
         </React.Fragment>
       );

@@ -44,7 +44,10 @@ export class Variables extends Component {
             open={this.state.addOpen}
             close={this.closeModalHandler}
           >
-            <AñadirVariable />
+            <AñadirVariable
+              open={this.state.addOpen}
+              close={this.closeModalHandler}
+            />
           </Modal>
           <ButtonIcon clicked={this.addVarHandler}>Añadir</ButtonIcon>
         </div>

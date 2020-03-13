@@ -6,99 +6,68 @@ import styles from "./AñadirVariable.module.scss";
 import Button from "../../../Components/UI/Button/Button";
 import { updateObject, checkValidity } from "../../../shared/utility";
 import * as actions from "../store/actions";
+import FormModel from "./FormModel";
+import Spinner from "../../../Components/UI/Spinner/Spinner";
 
 export class AñadirVariable extends Component {
   state = {
-    varForm: {
-      nombre: {
-        elementType: "input",
-        elementName: "Nombre",
-        elementConfig: {
-          type: "text",
-          placeholder: "Variable"
-        },
-        value: "",
-        validation: {
-          required: true
-        },
-        valid: false,
-        touched: false,
-        fullWidth: false
-      },
-      unidadMedida: {
-        elementType: "select",
-        elementName: "Unidad de medida",
-        elementConfig: {
-          options: [
-            { value: "litros", displayValue: "Litros" },
-            { value: "kilos", displayValue: "Kilos" }
-          ]
-        },
-        value: "litros",
-        validation: {},
-        valid: true,
-        fullWidth: false
-      },
-      indicador: {
-        elementType: "select",
-        elementName: "Indicador",
-        elementConfig: {
-          options: [
-            { value: "litros", displayValue: "Litros" },
-            { value: "kilos", displayValue: "Kilos" }
-          ]
-        },
-        value: "litros",
-        validation: {},
-        valid: true,
-        fullWidth: false
-      },
-      periodicidad: {
-        elementType: "select",
-        elementName: "Periodicidad",
-        elementConfig: {
-          options: [
-            { value: "litros", displayValue: "Litros" },
-            { value: "kilos", displayValue: "Kilos" }
-          ]
-        },
-        value: "litros",
-        validation: {},
-        valid: true,
-        fullWidth: false
-      },
-      reqEvidencia: {
-        elementType: "check",
-        elementName: "Requiere evidencia",
-        elementConfig: {},
-        value: "",
-        valid: true,
-        fullWidth: true
-      },
-      descripcion: {
-        elementType: "textarea",
-        elementName: "Descripción",
-        elementConfig: {
-          type: "text",
-          placeholder: "Variable"
-        },
-        value: "",
-        validation: {
-          required: true
-        },
-        valid: false,
-        touched: false,
-        fullWidth: true
-      }
-    },
+    varForm: FormModel,
     formIsValid: false,
-    loading: false
+    loading: true
   };
 
+  //Acciona el action creator que trae la informacion de los select de la base de datos
   componentDidMount() {
     this.props.onFetchInfo();
   }
 
+  //Se actualiza la informacion de los select del form con los traidos de la base de datos
+  componentDidUpdate() {
+    if (
+      this.props.unidadesMedida !== null &&
+      this.props.indicators !== null &&
+      this.props.periods !== null &&
+      this.state.loading
+    ) {
+      const updatedForm = this.updateUnimedsInfo();
+      this.setState({
+        varForm: updatedForm,
+        loading: false
+      });
+    }
+  }
+
+  //Creaun nuevo arreglo con los elementos del select extraidos de la base
+  updateUnimedsInfo = () => {
+    const uniMedsArray = this.props.unidadesMedida;
+    const indicatorArray = this.props.indicators;
+    const periodsArray = this.props.periods;
+    const stateForm = this.state.varForm;
+
+    const newFOrm = updateObject(stateForm, {
+      unidadMedida: updateObject(stateForm.unidadMedida, {
+        elementConfig: updateObject(stateForm.unidadMedida.elementConfig, {
+          options: uniMedsArray
+        }),
+        value: uniMedsArray[0].value
+      }),
+      indicador: updateObject(stateForm.indicador, {
+        elementConfig: updateObject(stateForm.indicador.elementConfig, {
+          options: indicatorArray
+        }),
+        value: indicatorArray[0].value
+      }),
+      periodicidad: updateObject(stateForm.periodicidad, {
+        elementConfig: updateObject(stateForm.periodicidad.elementConfig, {
+          options: periodsArray
+        }),
+        value: periodsArray[0].value
+      })
+    });
+    return newFOrm;
+  };
+
+  //Maneja la lectura de los inputs
   inputChangedHandler = (event, inputidentifier) => {
     const updatedFormElement = updateObject(
       this.state.varForm[inputidentifier],
@@ -111,7 +80,6 @@ export class AñadirVariable extends Component {
         touched: true
       }
     );
-
     const updatedVarForm = updateObject(this.state.varForm, {
       [inputidentifier]: updatedFormElement
     });
@@ -120,13 +88,27 @@ export class AñadirVariable extends Component {
     for (let inputId in updatedVarForm) {
       formIsValid = updatedVarForm[inputId].valid && formIsValid;
     }
+    // console.log(updatedVarForm);
     this.setState({
       varForm: updatedVarForm,
       formIsValid: formIsValid
     });
-
-    console.log(updatedVarForm);
   };
+
+  //Añadir variable
+
+  addVarHandler = event => {
+    event.preventDefault();
+
+    const formData = {};
+    for (let formEl in this.state.varForm) {
+      formData[formEl] = this.state.varForm[formEl].value;
+    }
+
+    this.props.onAddVar(formData);
+    console.log(formData);
+  };
+
   render() {
     const formElementsArray = [];
     for (let key in this.state.varForm) {
@@ -157,29 +139,51 @@ export class AñadirVariable extends Component {
       );
     });
 
-    return (
-      <div>
-        <div className={styles.Label}>Agregar nueva variable</div>
-        <div className={styles.Description}>
-          Rellenear los campos con las caracteristicas de la nueva variable
+    let formFull = <Spinner />;
+
+    if (!this.state.loading) {
+      formFull = (
+        <div>
+          <div className={styles.Label}>Agregar nueva variable</div>
+          <div className={styles.Description}>
+            Rellenear los campos con las caracteristicas de la nueva variable
+          </div>
+          <form onSubmit={this.addVarHandler}>
+            <div className={styles.Form}>{form}</div>
+
+            <div className={styles.Actions}>
+              <Button clicked={this.props.close} type={"Cancel"}>
+                Cancelar
+              </Button>
+              <Button
+                clicked={this.addVarHandler}
+                type={"Success"}
+                disabled={!this.state.formIsValid}
+              >
+                Aceptar
+              </Button>
+            </div>
+          </form>
         </div>
-        <form className={styles.Form}>{form}</form>
-        <div className={styles.Actions}>
-          <Button type={"Cancel"}>Cancelar</Button>
-          <Button type={"Success"}>Aceptar</Button>
-        </div>
-      </div>
-    );
+      );
+    }
+
+    return <React.Fragment>{formFull}</React.Fragment>;
   }
 }
 
 const mapStateToProps = state => {
-  return {};
+  return {
+    indicators: state.vars.indicators,
+    unidadesMedida: state.vars.unidadesMedida,
+    periods: state.vars.periods
+  };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onFetchInfo: () => dispatch(actions.fetchinfo())
+    onFetchInfo: () => dispatch(actions.fetchinfo()),
+    onAddVar: varData => dispatch(actions.addVar(varData))
   };
 };
-export default connect(null, mapDispatchToProps)(AñadirVariable);
+export default connect(mapStateToProps, mapDispatchToProps)(AñadirVariable);

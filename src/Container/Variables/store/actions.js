@@ -1,5 +1,6 @@
 import * as actionTypes from "../../../shared/actionTypes";
 import axios from "../../../axios";
+import axiosAll from "axios";
 
 export const fetchVarsStart = () => {
   return {
@@ -42,37 +43,38 @@ export const fetchVars = () => {
   };
 };
 
-// consultar unidades de medida
-export const fetchvarUnitStart = () => {
+// Unidades de medida
+export const fetchUniMedStart = () => {
   return {
     type: actionTypes.FETCH_MUNITS_START
   };
 };
 
-export const fetchvarUnitSuccess = vars => {
+export const fetchUniMedSuccess = uniMed => {
   return {
     type: actionTypes.FETCH_MUNITS_SUCCESS,
-    vars: vars
+    uniMed: uniMed
   };
 };
 
-export const fetchvarUnitFail = error => {
+export const fetchUniMedFail = error => {
   return {
     type: actionTypes.FETCH_MUNITS_FAIL,
     error: error
   };
 };
 
+//Indicadores
 export const fetchIndicatorStart = () => {
   return {
     type: actionTypes.FETCH_INDICATOR_START
   };
 };
 
-export const fetchIndicatorSuccess = vars => {
+export const fetchIndicatorSuccess = indicators => {
   return {
     type: actionTypes.FETCH_INDICATOR_SUCCESS,
-    vars: vars
+    indicators: indicators
   };
 };
 
@@ -83,28 +85,88 @@ export const fetchIndicatorFail = error => {
   };
 };
 
-export const fetchinfo = () => {
-  const unidadMedida = "/unidadMedida.json";
-  const indicador = "/indicador.json";
+//Periodicidad
+export const fetchPeriodStart = () => {
+  return {
+    type: actionTypes.FETCH_PERIOD_START
+  };
+};
 
+export const fetchPeriodSuccess = periods => {
+  return {
+    type: actionTypes.FETCH_PERIOD_SUCCESS,
+    periods: periods
+  };
+};
+
+export const fetchPeriodFail = error => {
+  return {
+    type: actionTypes.FETCH_PERIOD_FAIL,
+    error: error
+  };
+};
+
+//Nota: Axios.all no funciona con una instancia de axios, tiene que ser directamente la
+//objeto importado de la libreria
+export const fetchinfo = () => {
+  const fetchUniMeds = axios.get("/unidadMedida.json");
+  const fetchIndicators = axios.get("/indicador.json");
+  const fetchPeriod = axios.get("/periodicidad.json");
 
   return dispatch => {
-    axios
-      .get(unidadMedida)
-      .then(responses => {
-        console.log(responses.data);
-      })
-      .catch(errors => {
-        // react on errors.
+    dispatch(fetchUniMedStart());
+    dispatch(fetchIndicatorStart());
+    dispatch(fetchPeriodStart());
+    axiosAll
+      .all([fetchUniMeds, fetchIndicators, fetchPeriod])
+      .then(
+        axiosAll.spread(function(uniMeds, indicators, periods) {
+          dispatch(fetchIndicatorSuccess(Object.values(indicators.data)));
+          dispatch(fetchUniMedSuccess(Object.values(uniMeds.data)));
+          dispatch(fetchPeriodSuccess(Object.values(periods.data)));
+        })
+      )
+      .catch(error => {
+        dispatch(fetchUniMedFail(error));
+        dispatch(fetchIndicatorFail(error));
+        dispatch(fetchPeriodFail(error));
       });
+  };
+};
 
+//Agregar nueva variable
+
+export const addVarrStart = () => {
+  return {
+    type: actionTypes.ADD_VAR_START
+  };
+};
+
+export const addVarSuccess = varData => {
+  return {
+    type: actionTypes.ADD_VAR_SUSCCESS,
+    varData: varData
+  };
+};
+
+export const addVarFail = error => {
+  return {
+    type: actionTypes.ADD_VAR_FAIL,
+    error: error
+  };
+};
+
+export const addVar = varData => {
+  return dispatch => {
+    dispatch(addVarrStart());
     axios
-      .get(indicador)
-      .then(responses => {
-        console.log(responses.data);
+      .post("/vars.json", varData)
+      .then(res => {
+        console.log(res);
+        dispatch(addVarSuccess(res.data));
       })
-      .catch(errors => {
-        // react on errors.
+      .catch(error => {
+        dispatch(addVarFail(error));
       });
   };
 };
