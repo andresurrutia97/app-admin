@@ -18,3 +18,9 @@
     color: white !important;
   }
 }
+
+.Disabled {
+  opacity: 0.5;
+  color: gray !important;
+  background-color: map-get($colors, grayC) !important;
+}

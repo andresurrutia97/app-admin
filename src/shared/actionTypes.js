@@ -34,4 +34,9 @@ export const FETCH_PERIOD_FAIL = "FETCH_PERIOD_FAIL";
 export const ADD_VAR_START = "ADD_VAR_START";
 export const ADD_VAR_SUSCCESS = "ADD_VAR_SUSCCESS";
 export const ADD_VAR_FAIL = "ADD_VAR_FAIL";
+
+//Eliminar variable
+export const DELETE_VAR_START = "DELETE_VAR_START";
+export const DELETE_VAR_SUSCCESS = "DELETE_VAR_SUSCCESS";
+export const DELETE_VAR_FAIL = "DELETE_VAR_FAIL";
 //---------------------------------------------------

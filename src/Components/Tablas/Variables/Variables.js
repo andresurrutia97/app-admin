@@ -104,6 +104,7 @@ const useStyles2 = makeStyles({
 
 const CustomPaginationActionsTable = props => {
   const data = props.vars;
+  // console.log(data);
   const classes = useStyles2();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -192,17 +193,30 @@ const CustomPaginationActionsTable = props => {
                 classes={{ selected: styles.Selected }}
                 className={styles.Rows}
                 selected={selected === dt.id}
-                onClick={id => handleClick(dt.id)}
+                onClick={() => handleClick(dt.id)}
               >
                 <TableCell>{dt.variable}</TableCell>
-                <TableCell align="right">{dt.unidad_medida}</TableCell>
+                <TableCell align="right">{dt.unidadMedida}</TableCell>
                 <TableCell align="right">{dt.indicador}</TableCell>
-                <TableCell align="right">{dt.req_evidencia}</TableCell>
+                <TableCell align="right">{dt.reqEvidencia}</TableCell>
                 <TableCell align="right">{dt.periodicidad}</TableCell>
                 <TableCell align="right" style={{ width: "40%" }}>
                   {truncateName(dt.descripcion)}
                 </TableCell>
-                <TableCell align="right">{<Popover />}</TableCell>
+                <TableCell align="right">
+                  <Popover>
+                    <div className={styles.Options}>
+                      <div onClick={() => props.updateVar(dt)}>
+                        Modificar
+                        <i className="material-icons-outlined">edit</i>
+                      </div>
+                      <div onClick={() => props.deleteVar(dt.id)}>
+                        Eliminar
+                        <i className="material-icons-outlined">delete</i>
+                      </div>
+                    </div>
+                  </Popover>
+                </TableCell>
               </TableRow>
             );
           })}

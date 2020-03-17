@@ -3,7 +3,7 @@ import Popover from "@material-ui/core/Popover";
 
 import styles from "./Popover.module.scss";
 
-export default function SimplePopover() {
+export default function SimplePopover(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = event => {
@@ -37,14 +37,7 @@ export default function SimplePopover() {
           horizontal: "right"
         }}
       >
-        <div className={styles.Options}>
-          <div>
-            Modificar <i className="material-icons-outlined">edit</i>
-          </div>
-          <div>
-            Eliminar <i className="material-icons-outlined">delete</i>
-          </div>
-        </div>
+        {props.children}
       </Popover>
     </div>
   );

@@ -90,6 +90,10 @@ const fetchPeriodsFail = (state, action) => {
   });
 };
 
+//Añadir variables
+
+const addVarFail = (state, action) => {};
+
 const reducer = (state = initState, action) => {
   switch (action.type) {
     //Variables

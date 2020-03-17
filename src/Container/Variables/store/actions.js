@@ -32,7 +32,8 @@ export const fetchVars = () => {
         const fetchVars = [];
         for (let key in res.data) {
           fetchVars.push({
-            ...res.data[key]
+            ...res.data[key],
+            id: key
           });
         }
         dispatch(fetchVarsSuccess(fetchVars));
@@ -136,7 +137,7 @@ export const fetchinfo = () => {
 
 //Agregar nueva variable
 
-export const addVarrStart = () => {
+export const addVarStart = () => {
   return {
     type: actionTypes.ADD_VAR_START
   };
@@ -158,15 +159,50 @@ export const addVarFail = error => {
 
 export const addVar = varData => {
   return dispatch => {
-    dispatch(addVarrStart());
+    dispatch(addVarStart());
     axios
       .post("/vars.json", varData)
       .then(res => {
         console.log(res);
         dispatch(addVarSuccess(res.data));
+        if (res.data) {
+          dispatch(fetchVars());
+        }
       })
       .catch(error => {
         dispatch(addVarFail(error));
+      });
+  };
+};
+
+//Eliminar variables
+
+export const deleteVar = id => {
+  return dispatch => {
+    axios
+      .delete("/vars/" + id + ".json")
+      .then(res => {
+        console.log(res);
+        dispatch(fetchVars());
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+};
+
+//Actualizar variables
+
+export const updateVar = (id, data) => {
+  return dispatch => {
+    axios
+      .patch("/vars/" + id + ".json", data)
+      .then(res => {
+        console.log(res);
+        dispatch(fetchVars());
+      })
+      .catch(error => {
+        console.log(error);
       });
   };
 };

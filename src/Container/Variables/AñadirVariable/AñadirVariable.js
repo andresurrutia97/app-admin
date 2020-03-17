@@ -19,6 +19,7 @@ export class AñadirVariable extends Component {
   //Acciona el action creator que trae la informacion de los select de la base de datos
   componentDidMount() {
     this.props.onFetchInfo();
+    // console.log(this.props.updateData);
   }
 
   //Se actualiza la informacion de los select del form con los traidos de la base de datos
@@ -30,10 +31,23 @@ export class AñadirVariable extends Component {
       this.state.loading
     ) {
       const updatedForm = this.updateUnimedsInfo();
-      this.setState({
-        varForm: updatedForm,
-        loading: false
-      });
+
+      if (this.props.updateMode && this.props.updateData !== null) {
+        const updateData = this.updateValues(
+          updatedForm,
+          this.props.updateData
+        );
+
+        this.setState({
+          varForm: updateData,
+          loading: false
+        });
+      } else {
+        this.setState({
+          varForm: updatedForm,
+          loading: false
+        });
+      }
     }
   }
 
@@ -65,6 +79,18 @@ export class AñadirVariable extends Component {
       })
     });
     return newFOrm;
+  };
+
+  updateValues = (array, data) => {
+    let newData = [];
+    for (let el in array) {
+      newData[el] = updateObject(array[el], {
+        value: data[el],
+        valid: true
+      });
+    }
+    // console.log(newData);
+    return newData;
   };
 
   //Maneja la lectura de los inputs
@@ -99,14 +125,26 @@ export class AñadirVariable extends Component {
 
   addVarHandler = event => {
     event.preventDefault();
-
     const formData = {};
     for (let formEl in this.state.varForm) {
       formData[formEl] = this.state.varForm[formEl].value;
     }
 
-    this.props.onAddVar(formData);
-    console.log(formData);
+    this.props.addVar(formData);
+    this.props.close();
+  };
+
+  //actualizar variable
+
+  updateVarHandler = event => {
+    event.preventDefault();
+    const updatedInfo = {};
+    for (let formEl in this.state.varForm) {
+      updatedInfo[formEl] = this.state.varForm[formEl].value;
+    }
+
+    this.props.updateVar(updatedInfo, this.props.updateData.id);
+    this.props.close();
   };
 
   render() {
@@ -156,7 +194,11 @@ export class AñadirVariable extends Component {
                 Cancelar
               </Button>
               <Button
-                clicked={this.addVarHandler}
+                clicked={
+                  !this.props.updateMode
+                    ? this.addVarHandler
+                    : this.updateVarHandler
+                }
                 type={"Success"}
                 disabled={!this.state.formIsValid}
               >
@@ -182,8 +224,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onFetchInfo: () => dispatch(actions.fetchinfo()),
-    onAddVar: varData => dispatch(actions.addVar(varData))
+    onFetchInfo: () => dispatch(actions.fetchinfo())
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(AñadirVariable);

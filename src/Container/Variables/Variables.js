@@ -12,27 +12,55 @@ import AñadirVariable from "./AñadirVariable/AñadirVariable";
 import Modal from "../../Components/UI/Modal/Modal";
 
 import ButtonIcon from "../../Components/UI/ButtonIcon/ButtonIcon";
+import { updateObject } from "../../shared/utility";
 
 export class Variables extends Component {
   state = {
-    addOpen: false
+    addOpen: false,
+    updateInfo: null,
+    updateMode: false
   };
   componentDidMount() {
     this.props.onFetchVars();
+    // console.log(this.state.updateMode);
   }
 
-  addVarHandler = () => {
-    this.setState({ addOpen: true });
+  addVarModalHandler = () => {
+    this.setState({ updateInfo: null, updateMode: false, addOpen: true });
   };
 
   closeModalHandler = () => {
     this.setState({ addOpen: false });
   };
 
+  addVArHandler = data => {
+    this.props.onAddVar(data);
+  };
+
+  openUpdateVarHandler = updateData => {
+    this.setState({ updateInfo: updateData, updateMode: true, addOpen: true });
+  };
+
+  updateVarHandler = (data, id) => {
+    let aux = {};
+    for (let dt in data) {
+      if (data[dt] !== this.state.updateInfo[dt]) {
+        aux[dt] = data[dt];
+      }
+    }
+    this.props.onUpdateVar(id, aux);
+  };
+
   render() {
     let vars = <Spinner />;
     if (!this.props.loadingVars) {
-      vars = <TablaVariables vars={this.props.vars} />;
+      vars = (
+        <TablaVariables
+          vars={this.props.vars}
+          deleteVar={this.props.onDeleteVar}
+          updateVar={this.openUpdateVarHandler}
+        />
+      );
     }
 
     return (
@@ -47,9 +75,13 @@ export class Variables extends Component {
             <AñadirVariable
               open={this.state.addOpen}
               close={this.closeModalHandler}
+              addVar={this.addVArHandler}
+              updateVar={this.updateVarHandler}
+              updateMode={this.state.updateMode}
+              updateData={this.state.updateInfo}
             />
           </Modal>
-          <ButtonIcon clicked={this.addVarHandler}>Añadir</ButtonIcon>
+          <ButtonIcon clicked={this.addVarModalHandler}>Añadir</ButtonIcon>
         </div>
 
         {vars}
@@ -67,7 +99,10 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onFetchVars: () => dispatch(actions.fetchVars())
+    onFetchVars: () => dispatch(actions.fetchVars()),
+    onAddVar: varData => dispatch(actions.addVar(varData)),
+    onDeleteVar: id => dispatch(actions.deleteVar(id)),
+    onUpdateVar: (id, data) => dispatch(actions.updateVar(id, data))
   };
 };
 export default connect(
