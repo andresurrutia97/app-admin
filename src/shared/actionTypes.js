@@ -32,11 +32,16 @@ export const FETCH_PERIOD_FAIL = "FETCH_PERIOD_FAIL";
 
 //Agregar variable
 export const ADD_VAR_START = "ADD_VAR_START";
-export const ADD_VAR_SUSCCESS = "ADD_VAR_SUSCCESS";
+export const ADD_VAR_SUCCESS = "ADD_VAR_SUCCESS";
 export const ADD_VAR_FAIL = "ADD_VAR_FAIL";
 
 //Eliminar variable
 export const DELETE_VAR_START = "DELETE_VAR_START";
-export const DELETE_VAR_SUSCCESS = "DELETE_VAR_SUSCCESS";
+export const DELETE_VAR_SUCCESS = "DELETE_VAR_SUCCESS";
 export const DELETE_VAR_FAIL = "DELETE_VAR_FAIL";
+
+//Actualizar variable
+export const UPDATE_VAR_START = "UPDATE_VAR_START";
+export const UPDATE_VAR_SUCCESS = "UPDATE_VAR_SUCCESS";
+export const UPDATE_VAR_FAIL = "UPDATE_VAR_FAIL";
 //---------------------------------------------------

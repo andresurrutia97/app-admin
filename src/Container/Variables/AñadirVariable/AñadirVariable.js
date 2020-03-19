@@ -95,17 +95,27 @@ export class AñadirVariable extends Component {
 
   //Maneja la lectura de los inputs
   inputChangedHandler = (event, inputidentifier) => {
-    const updatedFormElement = updateObject(
-      this.state.varForm[inputidentifier],
-      {
+    let updatedFormElement = null;
+    if (inputidentifier === "reqEvidencia") {
+      updatedFormElement = updateObject(this.state.varForm[inputidentifier], {
+        value: event.target.checked,
+        valid: checkValidity(
+          event.target.value,
+          this.state.varForm[inputidentifier].validation
+        ),
+        touched: true
+      });
+    } else {
+      updatedFormElement = updateObject(this.state.varForm[inputidentifier], {
         value: event.target.value,
         valid: checkValidity(
           event.target.value,
           this.state.varForm[inputidentifier].validation
         ),
         touched: true
-      }
-    );
+      });
+    }
+
     const updatedVarForm = updateObject(this.state.varForm, {
       [inputidentifier]: updatedFormElement
     });
@@ -129,9 +139,10 @@ export class AñadirVariable extends Component {
     for (let formEl in this.state.varForm) {
       formData[formEl] = this.state.varForm[formEl].value;
     }
-
+    console.log(formData);
     this.props.addVar(formData);
     this.props.close();
+    // this.props.openMess();
   };
 
   //actualizar variable
@@ -145,6 +156,7 @@ export class AñadirVariable extends Component {
 
     this.props.updateVar(updatedInfo, this.props.updateData.id);
     this.props.close();
+    // this.props.openMess();
   };
 
   render() {
@@ -177,15 +189,21 @@ export class AñadirVariable extends Component {
       );
     });
 
-    let formFull = <Spinner />;
+    let title = "Agregar nueva variable";
+    let desc =
+      "Rellenear los campos con las caracteristicas de la nueva variable";
 
+    if (this.props.updateMode) {
+      title = "Modificar variable";
+      desc = "Rellenear los campos con las caracteristicas que desea modificar";
+    }
+
+    let formFull = <Spinner />;
     if (!this.state.loading) {
       formFull = (
         <div>
-          <div className={styles.Label}>Agregar nueva variable</div>
-          <div className={styles.Description}>
-            Rellenear los campos con las caracteristicas de la nueva variable
-          </div>
+          <div className={styles.Label}>{title}</div>
+          <div className={styles.Description}>{desc}</div>
           <form onSubmit={this.addVarHandler}>
             <div className={styles.Form}>{form}</div>
 

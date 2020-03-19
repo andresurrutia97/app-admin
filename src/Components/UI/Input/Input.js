@@ -47,10 +47,15 @@ const Input = props => {
       );
       break;
     case "check":
+      let check = false;
+      if (props.value === "on") {
+        check = true;
+      }
       inputElement = (
         <input
           type="checkbox"
-          {...props.elementConfig}
+          checked={props.value}
+          value={props.value}
           className={styles.Check}
           onChange={props.changed}
         />

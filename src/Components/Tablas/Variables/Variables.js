@@ -198,7 +198,7 @@ const CustomPaginationActionsTable = props => {
                 <TableCell>{dt.variable}</TableCell>
                 <TableCell align="right">{dt.unidadMedida}</TableCell>
                 <TableCell align="right">{dt.indicador}</TableCell>
-                <TableCell align="right">{dt.reqEvidencia}</TableCell>
+                <TableCell align="right">{dt.reqEvidencia ? "Si": "No"}</TableCell>
                 <TableCell align="right">{dt.periodicidad}</TableCell>
                 <TableCell align="right" style={{ width: "40%" }}>
                   {truncateName(dt.descripcion)}

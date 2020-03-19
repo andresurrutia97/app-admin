@@ -40,10 +40,7 @@ export default {
     elementType: "select",
     elementName: "Periodicidad",
     elementConfig: {
-      options: [
-        { value: "litros", displayValue: "Litros" },
-        { value: "kilos", displayValue: "Kilos" }
-      ]
+      options: []
     },
     value: "litros",
     validation: {},
@@ -54,7 +51,7 @@ export default {
     elementType: "check",
     elementName: "Requiere evidencia",
     elementConfig: {},
-    value: "off",
+    value: false,
     valid: true,
     fullWidth: true
   },

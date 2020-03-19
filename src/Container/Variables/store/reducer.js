@@ -1,15 +1,30 @@
 import * as actionTypes from "../../../shared/actionTypes";
 import { updateObject } from "../../../shared/utility";
+import MessageRes from "../../../Components/UI/MessageRes/MessageRes";
 
 const initState = {
   vars: [],
   loading: false,
+  //Indo fe selects
   unidadesMedida: null,
   loadingUniMeds: false,
   indicators: null,
   loadingIndicators: false,
   periods: null,
-  loadingPeriods: false
+  loadingPeriods: false,
+  //---CRUD---
+  //Añadir
+  loadingAdd: false,
+  addResponse: null,
+  addErrorResponse: null,
+  //Eliminar
+  loadingDelete: false,
+  deleteResponse: null,
+  deleteErrorResponse: null,
+  //Actualizar
+  loadingUpdate: false,
+  updateResponse: null,
+  updateErrorResponse: null
 };
 
 //Variables
@@ -92,8 +107,60 @@ const fetchPeriodsFail = (state, action) => {
 
 //Añadir variables
 
-const addVarFail = (state, action) => {};
+const addVarStart = state => {
+  return updateObject(state, { loadingAdd: true });
+};
 
+const addVarSuccess = (state, action) => {
+  return updateObject(state, { addResponse: action.res, loadingAdd: false });
+};
+
+const addVarFail = (state, action) => {
+  return updateObject(state, {
+    addErrorResponse: action.error,
+    loadingAdd: false
+  });
+};
+
+//Eliminar variables
+
+const deleteVarStart = state => {
+  return updateObject(state, { loadingDelete: true });
+};
+
+const deleteVarSuccess = (state, action) => {
+  return updateObject(state, {
+    deleteResponse: action.res,
+    loadingDelete: false
+  });
+};
+
+const deleteVarFail = (state, action) => {
+  return updateObject(state, {
+    deleteErrorResponse: action.error,
+    loadingDelete: false
+  });
+};
+
+//Actualizar variables
+
+const updateVarStart = state => {
+  return updateObject(state, { loadingUpdate: true });
+};
+
+const updateVarSuccess = (state, action) => {
+  return updateObject(state, {
+    updateResponse: action.res,
+    loadingUpdate: false
+  });
+};
+
+const updateVarFail = (state, action) => {
+  return updateObject(state, {
+    updateErrorResponse: action.error,
+    loadingUpdate: false
+  });
+};
 const reducer = (state = initState, action) => {
   switch (action.type) {
     //Variables
@@ -105,6 +172,36 @@ const reducer = (state = initState, action) => {
 
     case actionTypes.FETCH_VARS_FAIL:
       return fetchVarsFail(state, action);
+
+    //Añadir Variable
+    case actionTypes.ADD_VAR_START:
+      return addVarStart(state);
+
+    case actionTypes.ADD_VAR_SUCCESS:
+      return addVarSuccess(state, action);
+
+    case actionTypes.ADD_VAR_FAIL:
+      return addVarFail(state, action);
+
+    //Eliminar Variable
+    case actionTypes.DELETE_VAR_START:
+      return deleteVarStart(state);
+
+    case actionTypes.DELETE_VAR_SUCCESS:
+      return deleteVarSuccess(state, action);
+
+    case actionTypes.DELETE_VAR_FAIL:
+      return deleteVarFail(state, action);
+
+    //Actualizar Variable
+    case actionTypes.UPDATE_VAR_START:
+      return updateVarStart(state);
+
+    case actionTypes.UPDATE_VAR_SUCCESS:
+      return updateVarSuccess(state, action);
+
+    case actionTypes.UPDATE_VAR_FAIL:
+      return updateVarFail(state, action);
 
     //Unidades de medida
     case actionTypes.FETCH_MUNITS_START:

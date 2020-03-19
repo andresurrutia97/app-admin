@@ -143,10 +143,10 @@ export const addVarStart = () => {
   };
 };
 
-export const addVarSuccess = varData => {
+export const addVarSuccess = res => {
   return {
-    type: actionTypes.ADD_VAR_SUSCCESS,
-    varData: varData
+    type: actionTypes.ADD_VAR_SUCCESS,
+    res: res
   };
 };
 
@@ -163,26 +163,50 @@ export const addVar = varData => {
     axios
       .post("/vars.json", varData)
       .then(res => {
-        console.log(res);
-        dispatch(addVarSuccess(res.data));
-        if (res.data) {
+        if (res.status === 200) {
+          console.log(res);
+          dispatch(addVarSuccess(res));
           dispatch(fetchVars());
         }
       })
       .catch(error => {
-        dispatch(addVarFail(error));
+        if (error.response) {
+          dispatch(addVarFail(error.response));
+        }
       });
   };
 };
 
-//Eliminar variables
+//Eliminar variable
+
+export const deleteVarStart = () => {
+  return {
+    type: actionTypes.DELETE_VAR_START
+  };
+};
+
+export const deleteVarSuccess = res => {
+  return {
+    type: actionTypes.DELETE_VAR_SUCCESS,
+    res: res
+  };
+};
+
+export const deleteVarFail = error => {
+  return {
+    type: actionTypes.DELETE_VAR_FAIL,
+    error: error
+  };
+};
 
 export const deleteVar = id => {
   return dispatch => {
+    dispatch(deleteVarStart());
     axios
       .delete("/vars/" + id + ".json")
       .then(res => {
         console.log(res);
+        dispatch(deleteVarSuccess(res));
         dispatch(fetchVars());
       })
       .catch(error => {
@@ -193,12 +217,34 @@ export const deleteVar = id => {
 
 //Actualizar variables
 
+export const updateVarStart = () => {
+  return {
+    type: actionTypes.UPDATE_VAR_START
+  };
+};
+
+export const updateVarSuccess = res => {
+  return {
+    type: actionTypes.UPDATE_VAR_SUCCESS,
+    res: res
+  };
+};
+
+export const updateVarFail = error => {
+  return {
+    type: actionTypes.UPDATE_VAR_FAIL,
+    error: error
+  };
+};
+
 export const updateVar = (id, data) => {
   return dispatch => {
+    dispatch(updateVarStart());
     axios
       .patch("/vars/" + id + ".json", data)
       .then(res => {
         console.log(res);
+        dispatch(updateVarSuccess(res));
         dispatch(fetchVars());
       })
       .catch(error => {
