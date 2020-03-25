@@ -1,0 +1,50 @@
+@import "../../../styles/global.module";
+.Card {
+  padding: 20px 20px;
+  border-radius: 7px;
+  background-color: white;
+  box-shadow: 0 2px 5px #ccc;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.Name {
+  font-size: 20px;
+  font-weight: 600;
+  color: map-get($colors, blackDarker);
+}
+
+.Indicator {
+  margin-top: 5px;
+  font-size: 16px;
+  color: map-get($colors, blackLighter);
+}
+
+.Desc {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  font-size: 14px;
+  color: map-get($colors, blackMain);
+}
+
+.Actions {
+  display: flex;
+  justify-content: flex-end;
+  font-size: 14px;
+
+  .Delete {
+    color: map-get($colors, mainRed);
+    margin-right: 10px;
+    cursor: pointer;
+    &:hover {
+      color: map-get($colors, redDark);
+    }
+  }
+  .More {
+    color: map-get($colors, mainGreen);
+    cursor: pointer;
+    &:hover {
+      color: map-get($colors, greenDark);
+    }
+  }
+}

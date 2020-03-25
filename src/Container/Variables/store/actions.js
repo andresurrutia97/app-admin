@@ -1,4 +1,4 @@
-import * as actionTypes from "../../../shared/actionTypes";
+import * as actionTypes from "./actionTypes";
 import axios from "../../../axios";
 import axiosAll from "axios";
 

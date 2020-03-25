@@ -12,7 +12,6 @@ import AñadirVariable from "./AñadirVariable/AñadirVariable";
 import Modal from "../../Components/UI/Modal/Modal";
 import ButtonIcon from "../../Components/UI/ButtonIcon/ButtonIcon";
 import MessageRes from "../../Components/UI/MessageRes/MessageRes";
-import { updateObject } from "../../shared/utility";
 
 export class Variables extends Component {
   state = {
@@ -48,9 +47,9 @@ export class Variables extends Component {
     this.messageResOpen();
   };
 
-  deleteVarHandler = () => {
+  deleteVarHandler = (id) => {
     this.setState({ addMode: false, deleteMode: true, updateMode: false });
-    this.props.onDeleteVar();
+    this.props.onDeleteVar(id);
     this.messageResOpen();
   };
 

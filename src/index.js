@@ -10,6 +10,7 @@ import * as serviceWorker from "./serviceWorker";
 
 import usersReducer from "./Container/Usuarios/store/reducer";
 import varsReducer from "./Container/Variables/store/reducer";
+import dispsReducer from "./Container/Dispositivos/store/reducer";
 
 //Redux developer tools Chrome extension
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -17,7 +18,8 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 //Cominación de todos los reducers
 const rootreducer = combineReducers({
   users: usersReducer,
-  vars: varsReducer
+  vars: varsReducer,
+  disps: dispsReducer
 });
 
 //Creacion de la store con el middleware(thunk) para utilizar action creators(redex asíncrono)
