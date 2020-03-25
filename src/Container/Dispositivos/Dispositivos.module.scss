@@ -1,3 +1,13 @@
+.Header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.MessageRes {
+  text-align: center;
+}
+
 @media (min-width: 600px) {
   .Content {
     margin-top: 20px;

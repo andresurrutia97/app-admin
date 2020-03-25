@@ -44,138 +44,113 @@ export const fetchDisps = () => {
   };
 };
 
-// // Unidades de medida
-// export const fetchUniMedStart = () => {
-//   return {
-//     type: actionTypes.FETCH_MUNITS_START
-//   };
-// };
+//Indicadores
+export const fetchIndicatorStart = () => {
+  return {
+    type: actionTypes.FETCH_INDICATOR_START
+  };
+};
 
-// export const fetchUniMedSuccess = uniMed => {
-//   return {
-//     type: actionTypes.FETCH_MUNITS_SUCCESS,
-//     uniMed: uniMed
-//   };
-// };
+export const fetchIndicatorSuccess = indicators => {
+  return {
+    type: actionTypes.FETCH_INDICATOR_SUCCESS,
+    indicators: indicators
+  };
+};
 
-// export const fetchUniMedFail = error => {
-//   return {
-//     type: actionTypes.FETCH_MUNITS_FAIL,
-//     error: error
-//   };
-// };
+export const fetchIndicatorFail = error => {
+  return {
+    type: actionTypes.FETCH_INDICATOR_FAIL,
+    error: error
+  };
+};
 
-// //Indicadores
-// export const fetchIndicatorStart = () => {
-//   return {
-//     type: actionTypes.FETCH_INDICATOR_START
-//   };
-// };
+//Marca
+export const fetchMarcasStart = () => {
+  return {
+    type: actionTypes.FETCH_MARCA_START
+  };
+};
 
-// export const fetchIndicatorSuccess = indicators => {
-//   return {
-//     type: actionTypes.FETCH_INDICATOR_SUCCESS,
-//     indicators: indicators
-//   };
-// };
+export const fetchMarcasSuccess = marcas => {
+  return {
+    type: actionTypes.FETCH_MARCA_SUCCESS,
+    marcas: marcas
+  };
+};
 
-// export const fetchIndicatorFail = error => {
-//   return {
-//     type: actionTypes.FETCH_INDICATOR_FAIL,
-//     error: error
-//   };
-// };
+export const fetchMarcasFail = error => {
+  return {
+    type: actionTypes.FETCH_MARCA_FAIL,
+    error: error
+  };
+};
 
-// //Periodicidad
-// export const fetchPeriodStart = () => {
-//   return {
-//     type: actionTypes.FETCH_PERIOD_START
-//   };
-// };
+//Nota: Axios.all no funciona con una instancia de axios, tiene que ser directamente la
+//objeto importado de la libreria
+export const fetchinfo = () => {
+  const fetchIndicators = axios.get("/indicador.json");
+  const fetchMarcas = axios.get("/marcas.json");
 
-// export const fetchPeriodSuccess = periods => {
-//   return {
-//     type: actionTypes.FETCH_PERIOD_SUCCESS,
-//     periods: periods
-//   };
-// };
+  return dispatch => {
+    dispatch(fetchIndicatorStart());
+    dispatch(fetchMarcasStart());
+    axiosAll
+      .all([fetchIndicators, fetchMarcas])
+      .then(
+        axiosAll.spread(function(indicators, marcas) {
+          dispatch(fetchIndicatorSuccess(Object.values(indicators.data)));
+          dispatch(fetchMarcasSuccess(Object.values(marcas.data)));
+        })
+      )
+      .catch(error => {
+        dispatch(fetchIndicatorFail(error));
+        dispatch(fetchMarcasFail(error));
+      });
+  };
+};
 
-// export const fetchPeriodFail = error => {
-//   return {
-//     type: actionTypes.FETCH_PERIOD_FAIL,
-//     error: error
-//   };
-// };
+//Agregar nuevo dispositivo
 
-// //Nota: Axios.all no funciona con una instancia de axios, tiene que ser directamente la
-// //objeto importado de la libreria
-// export const fetchinfo = () => {
-//   const fetchUniMeds = axios.get("/unidadMedida.json");
-//   const fetchIndicators = axios.get("/indicador.json");
-//   const fetchPeriod = axios.get("/periodicidad.json");
+export const addDispStart = () => {
+  return {
+    type: actionTypes.ADD_DISP_START
+  };
+};
 
-//   return dispatch => {
-//     dispatch(fetchUniMedStart());
-//     dispatch(fetchIndicatorStart());
-//     dispatch(fetchPeriodStart());
-//     axiosAll
-//       .all([fetchUniMeds, fetchIndicators, fetchPeriod])
-//       .then(
-//         axiosAll.spread(function(uniMeds, indicators, periods) {
-//           dispatch(fetchIndicatorSuccess(Object.values(indicators.data)));
-//           dispatch(fetchUniMedSuccess(Object.values(uniMeds.data)));
-//           dispatch(fetchPeriodSuccess(Object.values(periods.data)));
-//         })
-//       )
-//       .catch(error => {
-//         dispatch(fetchUniMedFail(error));
-//         dispatch(fetchIndicatorFail(error));
-//         dispatch(fetchPeriodFail(error));
-//       });
-//   };
-// };
+export const addDispSuccess = res => {
+  return {
+    type: actionTypes.ADD_DISP_START,
+    res: res
+  };
+};
 
-// //Agregar nueva variable
+export const addDispFail = error => {
+  return {
+    type: actionTypes.ADD_DISP_FAIL,
+    error: error
+  };
+};
 
-// export const addVarStart = () => {
-//   return {
-//     type: actionTypes.ADD_VAR_START
-//   };
-// };
-
-// export const addVarSuccess = res => {
-//   return {
-//     type: actionTypes.ADD_VAR_SUCCESS,
-//     res: res
-//   };
-// };
-
-// export const addVarFail = error => {
-//   return {
-//     type: actionTypes.ADD_VAR_FAIL,
-//     error: error
-//   };
-// };
-
-// export const addVar = varData => {
-//   return dispatch => {
-//     dispatch(addVarStart());
-//     axios
-//       .post("/vars.json", varData)
-//       .then(res => {
-//         if (res.status === 200) {
-//           console.log(res);
-//           dispatch(addVarSuccess(res));
-//           dispatch(fetchDisps());
-//         }
-//       })
-//       .catch(error => {
-//         if (error.response) {
-//           dispatch(addVarFail(error.response));
-//         }
-//       });
-//   };
-// };
+export const addDisp = varData => {
+  return dispatch => {
+    dispatch(addDispStart());
+    axios
+      .post("/dispositivos.json", varData)
+      .then(res => {
+        if (res.status === 200) {
+          console.log(res);
+          dispatch(addDispSuccess(res));
+          dispatch(fetchDisps());
+        }
+      })
+      .catch(error => {
+        if (error.response) {
+          dispatch(addDispFail(error.response));
+        }
+      });
+  };
+};
 
 // //Eliminar variable
 

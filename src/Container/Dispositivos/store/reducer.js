@@ -4,13 +4,11 @@ import { updateObject } from "../../../shared/utility";
 const initState = {
   dispositivos: [],
   loading: false,
-  //Indo fe selects
-  unidadesMedida: null,
-  loadingUniMeds: false,
+  //Info de selects
   indicators: null,
   loadingIndicators: false,
-  periods: null,
-  loadingPeriods: false,
+  marcas: null,
+  loadingMarcas: false,
   //---CRUD---
   //Añadir
   loadingAdd: false,
@@ -42,6 +40,61 @@ const fetchDispsFail = (state, action) => {
   return updateObject(state, {
     error: action.error,
     loading: true
+  });
+};
+
+//Añadir variables
+
+const addDispStart = state => {
+  return updateObject(state, { loadingAdd: true });
+};
+
+const addDispSuccess = (state, action) => {
+  return updateObject(state, { addResponse: action.res, loadingAdd: false });
+};
+
+const addDispFail = (state, action) => {
+  return updateObject(state, {
+    addErrorResponse: action.error,
+    loadingAdd: false
+  });
+};
+
+//Indicadores
+const fetchIndicatorStart = state => {
+  return updateObject(state, { loadingIndicators: true });
+};
+
+const fetchIndicatorSuccess = (state, action) => {
+  return updateObject(state, {
+    indicators: action.indicators,
+    loadingIndicators: false
+  });
+};
+
+const fetchIndicatorFail = (state, action) => {
+  return updateObject(state, {
+    errorIndicator: action.error,
+    loadingIndicators: true
+  });
+};
+
+//Marcas
+const fetchMarcasStart = state => {
+  return updateObject(state, { loadingMarcas: true });
+};
+
+const fetchMarcasSuccess = (state, action) => {
+  return updateObject(state, {
+    marcas: action.marcas,
+    loadingMarcas: false
+  });
+};
+
+const fetchMarcasFail = (state, action) => {
+  return updateObject(state, {
+    errorMarcas: action.error,
+    loadingMarcas: true
   });
 };
 
@@ -172,15 +225,15 @@ const reducer = (state = initState, action) => {
     case actionTypes.FETCH_DISPS_FAIL:
       return fetchDispsFail(state, action);
 
-    // //Añadir Variable
-    // case actionTypes.ADD_VAR_START:
-    //   return addVarStart(state);
+    //Añadir Dispositivo
+    case actionTypes.ADD_DISP_START:
+      return addDispStart(state);
 
-    // case actionTypes.ADD_VAR_SUCCESS:
-    //   return addVarSuccess(state, action);
+    case actionTypes.ADD_DISP_SUCCESS:
+      return addDispSuccess(state, action);
 
-    // case actionTypes.ADD_VAR_FAIL:
-    //   return addVarFail(state, action);
+    case actionTypes.ADD_DISP_FAIL:
+      return addDispFail(state, action);
 
     // //Eliminar Variable
     // case actionTypes.DELETE_VAR_START:
@@ -202,35 +255,25 @@ const reducer = (state = initState, action) => {
     // case actionTypes.UPDATE_VAR_FAIL:
     //   return updateVarFail(state, action);
 
-    // //Unidades de medida
-    // case actionTypes.FETCH_MUNITS_START:
-    //   return fetchUniMedStart(state);
+    //Indicadores
+    case actionTypes.FETCH_INDICATOR_START:
+      return fetchIndicatorStart(state);
 
-    // case actionTypes.FETCH_MUNITS_SUCCESS:
-    //   return fetchUniMedSuccess(state, action);
+    case actionTypes.FETCH_INDICATOR_SUCCESS:
+      return fetchIndicatorSuccess(state, action);
 
-    // case actionTypes.FETCH_MUNITS_FAIL:
-    //   return fetchUniMedFail(state, action);
+    case actionTypes.FETCH_INDICATOR_FAIL:
+      return fetchIndicatorFail(state, action);
 
-    // //Indicadores
-    // case actionTypes.FETCH_INDICATOR_START:
-    //   return fetchIndicatorStart(state);
+    //Marcas
+    case actionTypes.FETCH_MARCA_START:
+      return fetchMarcasStart(state);
 
-    // case actionTypes.FETCH_INDICATOR_SUCCESS:
-    //   return fetchIndicatorSuccess(state, action);
+    case actionTypes.FETCH_MARCA_SUCCESS:
+      return fetchMarcasSuccess(state, action);
 
-    // case actionTypes.FETCH_INDICATOR_FAIL:
-    //   return fetchIndicatorFail(state, action);
-
-    // //Periodicidad
-    // case actionTypes.FETCH_PERIOD_START:
-    //   return fetchPeriodsStart(state);
-
-    // case actionTypes.FETCH_PERIOD_SUCCESS:
-    //   return fetchPeriodsSuccess(state, action);
-
-    // case actionTypes.FETCH_PERIOD_FAIL:
-    //   return fetchPeriodsFail(state, action);
+    case actionTypes.FETCH_MARCA_FAIL:
+      return fetchMarcasFail(state, action);
 
     default:
       return state;
