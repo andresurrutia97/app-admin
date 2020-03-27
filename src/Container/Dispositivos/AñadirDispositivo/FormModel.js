@@ -1,7 +1,7 @@
 export default {
   dispositivo: {
     elementType: "input",
-    elementName: "Dispositivo",
+    elementName: "Nombre dispositivo",
     elementConfig: {
       type: "text",
       placeholder: "Dispositivo"
@@ -12,6 +12,17 @@ export default {
     },
     valid: false,
     touched: false,
+    fullWidth: false
+  },
+  marca: {
+    elementType: "select",
+    elementName: "Marca",
+    elementConfig: {
+      options: []
+    },
+    value: "",
+    validation: {},
+    valid: true,
     fullWidth: false
   },
   modelo: {
@@ -29,17 +40,7 @@ export default {
     touched: false,
     fullWidth: false
   },
-  marca: {
-    elementType: "select",
-    elementName: "Unidad de medida",
-    elementConfig: {
-      options: []
-    },
-    value: "",
-    validation: {},
-    valid: true,
-    fullWidth: false
-  },
+
   indicador: {
     elementType: "select",
     elementName: "Indicador",

@@ -131,16 +131,18 @@ export class AñadirDispositivo extends Component {
     for (let formEl in this.state.varForm) {
       formData[formEl] = this.state.varForm[formEl].value;
     }
-    console.log(formData);
-    this.props.addDisp(formData);
+    const finalData = {
+      ...formData,
+      coordenadas: { lat: this.state.lat, long: this.state.long }
+    };
+    console.log(finalData);
+    this.props.addDisp(finalData);
     this.props.close();
     // this.props.openMess();
   };
 
   //Obtener position disp
-  dispPosition = (lat, long) => {
-    const coor = { lat, long };
-    console.log(coor);
+  dispPosition = (long, lat) => {
     this.setState({ lat: lat, long: long });
   };
 
@@ -188,9 +190,9 @@ export class AñadirDispositivo extends Component {
       );
     });
 
-    let title = "Agregar nueva variable";
+    let title = "Agregar nuevo dispositivo";
     let desc =
-      "Rellenear los campos con las caracteristicas de la nueva variable";
+      "Rellenear los campos con las caracteristicas del nuevo dispositivo";
 
     if (this.props.updateMode) {
       title = "Modificar variable";
@@ -205,7 +207,7 @@ export class AñadirDispositivo extends Component {
           <div className={styles.Description}>{desc}</div>
           <form onSubmit={this.addVarHandler}>
             <div className={styles.Form}>{form}</div>
-            <Map getPos={this.dispPosition} />
+            <Map getPos={this.dispPosition} add={true} />
             <div className={styles.Actions}>
               <Button clicked={this.props.close} type={"Cancel"}>
                 Cancelar

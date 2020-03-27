@@ -43,6 +43,13 @@ export class Dispositivos extends Component {
     // this.messageResOpen();
   };
 
+  goTo = params => {
+    this.props.history.push({
+      pathname: "/infoDispo",
+      state: params 
+    });
+  };
+
   render() {
     let disps = <Spinner />;
     if (!this.props.loadingDisps) {
@@ -54,6 +61,7 @@ export class Dispositivos extends Component {
             nombre={dis.dispositivo}
             indicador={dis.indicador}
             desc={dis.descripcion}
+            more={() => this.goTo(dis)}
           />
         );
       });

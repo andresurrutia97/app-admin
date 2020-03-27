@@ -6,6 +6,7 @@ import { ThemeProvider } from "@material-ui/styles";
 
 import Layout from "./Hoc/Layout/Layout";
 import Routes from "./Routes";
+import InfoDispositivo from "./Container/Dispositivos/InfoDispositivo/InfoDispositivo";
 
 //creacion de estilos para modificar la fuente de Material UI - uso de ThemeProvider
 const theme = createMuiTheme({
@@ -31,6 +32,7 @@ function App() {
               <Route key={index} path={rt.path} component={rt.component} />
             );
           })}
+          <Route path="/infoDispo" exact component={InfoDispositivo} />
         </Switch>
       </Layout>
     </ThemeProvider>

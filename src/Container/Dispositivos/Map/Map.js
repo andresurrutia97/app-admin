@@ -7,11 +7,6 @@ import "mapbox-gl/dist/mapbox-gl.css";
 const TOKEN =
   "pk.eyJ1IjoidXJ1OTciLCJhIjoiY2s4N3BnZ2huMDBibDNsczF4amVkMWYzeSJ9.gMDIcSkvh9F6QfGco7pxsg";
 
-const geolocateStyle = {
-  float: "left",
-  margin: "10px"
-};
-
 const Map = props => {
   const [viewport, setViewPort] = useState({
     width: "100%",
@@ -36,28 +31,40 @@ const Map = props => {
     props.getPos(longitude, latitude);
   };
 
+  let markerOnMap = null;
+  if (props.add) {
+    markerOnMap = markers.length
+      ? markers.map((m, i) => (
+          // <Marker /> just places its children at the right lat lng.
+
+          <Marker {...m} key={i}>
+            <span className="material-icons" style={{ color: "#62bc50" }}>
+              place
+            </span>
+          </Marker>
+        ))
+      : null;
+  }
+  if (props.info) {
+    markerOnMap = (
+      <Marker longitude={props.coor.long} latitude={props.coor.lat}>
+        <span className="material-icons" style={{ color: "#62bc50" }}>
+          place
+        </span>
+      </Marker>
+    );
+  }
+
   return (
-    <div style={{ padding: "10px" }}>
+    <div>
       <InteractiveMap
         {...viewport}
         mapboxApiAccessToken={TOKEN}
         mapStyle="mapbox://styles/mapbox/streets-v11"
         onViewportChange={onViewportChange}
-        onClick={marker}
+        onClick={props.add ? marker : null}
       >
-        {markers.length
-          ? markers.map((m, i) => (
-              // <Marker /> just places its children at the right lat lng.
-              <Marker {...m} key={i}>
-                <span className="material-icons">place</span>
-              </Marker>
-            ))
-          : null}
-        <GeolocateControl
-          style={geolocateStyle}
-          positionOptions={{ enableHighAccuracy: true }}
-          trackUserLocation={true}
-        />
+        {markerOnMap}
       </InteractiveMap>
     </div>
   );

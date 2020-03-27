@@ -1,0 +1,145 @@
+@import "../../../styles/global.module";
+
+$textColor: map-get($colors, blackMain);
+
+@mixin h3 {
+  font-weight: 600;
+  color: $textColor;
+}
+
+.Root {
+  margin: auto;
+  width: 100%;
+}
+
+.Header {
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+
+  h2 {
+    color: map-get($colors, mainGreen);
+    font-weight: 600;
+    font-size: 20px;
+    margin-bottom: 5px;
+  }
+}
+
+.Buttons {
+}
+
+.newHr {
+  height: 1px;
+  border-bottom: 1px solid map-get($colors, grayC);
+}
+
+.Subtitle {
+  color: map-get($colors, blackLighter);
+  margin: 10px 0;
+}
+
+.Content {
+  background-color: white;
+  border-radius: 7px;
+  padding: 10px 20px;
+  box-shadow: 0 2px 5px #ccc;
+}
+
+.Content_MainItems {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  div {
+    display: flex;
+    flex-flow: column;
+    h3 {
+      @include h3;
+    }
+    span {
+      color: $textColor;
+    }
+  }
+}
+
+.Content_varUbiItems {
+  margin-top: 20px;
+  display: flex;
+  flex-flow: column;
+}
+.Variables {
+  margin-bottom: 20px;
+  h3 {
+    @include h3;
+  }
+}
+
+.Variables_tabla {
+  margin-top: 10px;
+}
+
+.Ubicacion {
+  h3 {
+    @include h3;
+  }
+}
+
+.Ubicacion_Map {
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  border-radius: 7px;
+  padding: 10px;
+}
+
+.Content_Desc {
+  margin-top: 20px;
+  h3 {
+    @include h3;
+  }
+  div {
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+    padding: 10px;
+    color: $textColor;
+  }
+}
+
+@media (min-width: 600px) {
+  .Root {
+    width: 70%;
+  }
+  .Content_MainItems {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 900px) {
+  .Header {
+    flex-flow: row;
+    h2 {
+      margin-top: 0;
+      font-size: 22px;
+    }
+  }
+  .Content {
+    padding: 20px 30px;
+  }
+  .Content_MainItems {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .Content_varUbiItems {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 20px;
+  }
+  .Variables {
+    grid-column: span 4;
+  }
+
+  .Ubicacion {
+    grid-column: span 8;
+  }
+}
