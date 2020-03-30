@@ -18,13 +18,13 @@ export const ADD_DISP_START = "ADD_DISP_START";
 export const ADD_DISP_SUCCESS = "ADD_DISP_SUCCESS";
 export const ADD_DISP_FAIL = "ADD_DISP_FAIL";
 
-// //Eliminar variable
-// export const DELETE_VAR_START = "DELETE_VAR_START";
-// export const DELETE_VAR_SUCCESS = "DELETE_VAR_SUCCESS";
-// export const DELETE_VAR_FAIL = "DELETE_VAR_FAIL";
+//Actualizar dispositivo
+export const UPDATE_DISP_START = "UPDATE_DISP_START";
+export const UPDATE_DISP_SUCCESS = "UPDATE_DISP_SUCCESS";
+export const UPDATE_DISP_FAIL = "UPDATE_DISP_FAIL";
 
-// //Actualizar variable
-// export const UPDATE_VAR_START = "UPDATE_VAR_START";
-// export const UPDATE_VAR_SUCCESS = "UPDATE_VAR_SUCCESS";
-// export const UPDATE_VAR_FAIL = "UPDATE_VAR_FAIL";
-// //---------------------------------------------------
+//Eliminar dispositivo
+export const DELETE_DISP_START = "DELETE_DISP_START";
+export const DELETE_DISP_SUCCESS = "DELETE_DISP_SUCCESS";
+export const DELETE_DISP_FAIL = "DELETE_DISP_FAIL";
+//---------------------------------------------------

@@ -1,8 +1,10 @@
 @import "../../../styles/global.module";
 
 $textColor: map-get($colors, blackMain);
+$textFontSize: 14px;
 
 @mixin h3 {
+  font-size: 14px;
   font-weight: 600;
   color: $textColor;
 }
@@ -58,16 +60,34 @@ $textColor: map-get($colors, blackMain);
       @include h3;
     }
     span {
+      margin-top: 10px;
       color: $textColor;
+      font-size: $textFontSize;
     }
   }
 }
 
+.Content_Desc {
+  margin-top: 40px;
+  h3 {
+    @include h3;
+  }
+  div {
+    font-size: $textFontSize;
+    margin-top: 15px;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+    padding: 10px;
+    color: $textColor;
+  }
+}
+
 .Content_varUbiItems {
-  margin-top: 20px;
+  margin-top: 40px;
   display: flex;
   flex-flow: column;
 }
+
 .Variables {
   margin-bottom: 20px;
   h3 {
@@ -92,40 +112,35 @@ $textColor: map-get($colors, blackMain);
   padding: 10px;
 }
 
-.Content_Desc {
-  margin-top: 20px;
-  h3 {
-    @include h3;
-  }
-  div {
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 7px;
-    padding: 10px;
-    color: $textColor;
-  }
-}
-
 @media (min-width: 600px) {
   .Root {
     width: 70%;
   }
+
+  .Header {
+    flex-flow: row;
+    
+    h2 {
+      font-size: 22px;
+    }
+  }
+
   .Content_MainItems {
     grid-template-columns: repeat(3, 1fr);
+  }
+
+  .Subtitle {
+    color: map-get($colors, blackLighter);
+    margin: 10px 0;
+    margin-top: 20px;
   }
 }
 
 @media (min-width: 900px) {
-  .Header {
-    flex-flow: row;
-    h2 {
-      margin-top: 0;
-      font-size: 22px;
-    }
-  }
   .Content {
     padding: 20px 30px;
   }
+
   .Content_MainItems {
     grid-template-columns: repeat(4, 1fr);
   }
@@ -135,6 +150,7 @@ $textColor: map-get($colors, blackMain);
     grid-template-columns: repeat(12, 1fr);
     gap: 20px;
   }
+
   .Variables {
     grid-column: span 4;
   }

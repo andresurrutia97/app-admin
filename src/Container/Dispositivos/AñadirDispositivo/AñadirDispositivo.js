@@ -14,6 +14,7 @@ export class AñadirDispositivo extends Component {
   state = {
     varForm: FormModel,
     formIsValid: false,
+    formMapIsValid: false,
     loading: true,
     lat: null,
     long: null,
@@ -23,11 +24,11 @@ export class AñadirDispositivo extends Component {
   //Acciona el action creator que trae la informacion de los select de la base de datos
   componentDidMount() {
     this.props.onFetchInfo();
-    // console.log(this.props.updateData);
   }
 
-  //Se actualiza la informacion de los select del form con los traidos de la base de datos
+  //Se actualiza la informacion de los select del form con los traídos de la base de datos
   componentDidUpdate() {
+    //si esta en updateMode se actualiza los valores del Form con los del dispositivo seleccionado
     if (
       this.props.indicators !== null &&
       this.props.marcas !== null &&
@@ -39,6 +40,7 @@ export class AñadirDispositivo extends Component {
           updatedForm,
           this.props.updateData
         );
+        // console.log(updateData);
         this.setState({
           varForm: updateData,
           loading: false
@@ -51,15 +53,20 @@ export class AñadirDispositivo extends Component {
       }
     }
 
-    if (this.state.lat && this.state.lat && this.state.loadingCoordenadas) {
+    if (
+      this.state.lat &&
+      this.state.lat &&
+      this.state.loadingCoordenadas &&
+      this.state.formIsValid
+    ) {
       this.setState({
-        formIsValid: true,
+        formMapIsValid: true,
         loadingCoordenadas: false
       });
     }
   }
 
-  //Creaun nuevo arreglo con los elementos del select extraidos de la base
+  //Agrega las opciones de los select traídos de la base de datos
   updateUnimedsInfo = () => {
     const indicatorArray = this.props.indicators;
     const marcasArray = this.props.marcas;
@@ -82,6 +89,8 @@ export class AñadirDispositivo extends Component {
     return newFOrm;
   };
 
+  //Funcion para validar que ha sido actualizado una caracterstica del form
+  // en modo updateForm
   updateValues = (array, data) => {
     let newData = [];
     for (let el in array) {
@@ -118,13 +127,12 @@ export class AñadirDispositivo extends Component {
     // console.log(updatedVarForm);
 
     this.setState({
-      // formIsValid: formIsValid,
+      formIsValid: formIsValid,
       varForm: updatedVarForm
     });
   };
 
   //Añadir variable
-
   addVarHandler = event => {
     event.preventDefault();
     const formData = {};
@@ -141,21 +149,31 @@ export class AñadirDispositivo extends Component {
     // this.props.openMess();
   };
 
-  //Obtener position disp
+  //Obtener las coordenadas del dispositivo
   dispPosition = (long, lat) => {
-    this.setState({ lat: lat, long: long });
+    if (this.props.updateMode && this.state.long !== null) {
+      //updateMode - valida la form si hay mnodificacion en la posicion del dispositivo
+      this.setState({ lat: lat, long: long, formMapIsValid: true });
+    } else {
+      this.setState({ lat: lat, long: long });
+    }
   };
 
   //actualizar variable
-
-  updateVarHandler = event => {
+  updateDispHandler = event => {
     event.preventDefault();
     const updatedInfo = {};
     for (let formEl in this.state.varForm) {
       updatedInfo[formEl] = this.state.varForm[formEl].value;
     }
+    //crea una variable con toda la informacion del dispositivo
+    const updatedInfoWithCoors = {
+      ...updatedInfo,
+      coordenadas: { lat: this.state.lat, long: this.state.long }
+    };
+    // console.log(updatedInfoWithCoors);
 
-    this.props.updateVar(updatedInfo, this.props.updateData.id);
+    this.props.updateDisp(updatedInfoWithCoors, this.props.updateData.id);
     this.props.close();
     // this.props.openMess();
   };
@@ -199,6 +217,20 @@ export class AñadirDispositivo extends Component {
       desc = "Rellenear los campos con las caracteristicas que desea modificar";
     }
 
+    let map;
+    if (!this.props.updateMode) {
+      map = <Map getPos={this.dispPosition} add={true} />;
+    } else {
+      map = (
+        <Map
+          info={true}
+          coor={this.props.updateData.coordenadas}
+          updateMode={this.props.updateMode}
+          getPos={this.dispPosition}
+        />
+      );
+    }
+
     let formFull = <Spinner />;
     if (!this.state.loading) {
       formFull = (
@@ -207,7 +239,7 @@ export class AñadirDispositivo extends Component {
           <div className={styles.Description}>{desc}</div>
           <form onSubmit={this.addVarHandler}>
             <div className={styles.Form}>{form}</div>
-            <Map getPos={this.dispPosition} add={true} />
+            {map}
             <div className={styles.Actions}>
               <Button clicked={this.props.close} type={"Cancel"}>
                 Cancelar
@@ -216,10 +248,10 @@ export class AñadirDispositivo extends Component {
                 clicked={
                   !this.props.updateMode
                     ? this.addVarHandler
-                    : this.updateVarHandler
+                    : this.updateDispHandler
                 }
                 type={"Success"}
-                disabled={!this.state.formIsValid}
+                disabled={!this.state.formMapIsValid}
               >
                 Aceptar
               </Button>

@@ -190,40 +190,40 @@ export const addDisp = varData => {
 //   };
 // };
 
-// //Actualizar variables
+//Actualizar variables
 
-// export const updateVarStart = () => {
-//   return {
-//     type: actionTypes.UPDATE_VAR_START
-//   };
-// };
+export const updateDispStart = () => {
+  return {
+    type: actionTypes.UPDATE_DISP_START
+  };
+};
 
-// export const updateVarSuccess = res => {
-//   return {
-//     type: actionTypes.UPDATE_VAR_SUCCESS,
-//     res: res
-//   };
-// };
+export const updateDispSuccess = res => {
+  return {
+    type: actionTypes.UPDATE_DISP_SUCCESS,
+    res: res
+  };
+};
 
-// export const updateVarFail = error => {
-//   return {
-//     type: actionTypes.UPDATE_VAR_FAIL,
-//     error: error
-//   };
-// };
+export const updateDispFail = error => {
+  return {
+    type: actionTypes.UPDATE_DISP_FAIL,
+    error: error
+  };
+};
 
-// export const updateVar = (id, data) => {
-//   return dispatch => {
-//     dispatch(updateVarStart());
-//     axios
-//       .patch("/vars/" + id + ".json", data)
-//       .then(res => {
-//         console.log(res);
-//         dispatch(updateVarSuccess(res));
-//         dispatch(fetchDisps());
-//       })
-//       .catch(error => {
-//         console.log(error);
-//       });
-//   };
-// };
+export const updateDisp = (id, data) => {
+  return dispatch => {
+    dispatch(updateDispStart());
+    axios
+      .patch("/dispositivos/" + id + ".json", data)
+      .then(res => {
+        console.log(res);
+        dispatch(updateDispSuccess(res));
+        dispatch(fetchDisps());
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+};

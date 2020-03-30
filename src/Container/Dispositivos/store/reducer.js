@@ -60,6 +60,26 @@ const addDispFail = (state, action) => {
   });
 };
 
+//Actualizar dispositivo
+
+const updateDispStart = state => {
+  return updateObject(state, { loadingUpdate: true });
+};
+
+const updateDispSuccess = (state, action) => {
+  return updateObject(state, {
+    updateResponse: action.res,
+    loadingUpdate: false
+  });
+};
+
+const updateDispFail = (state, action) => {
+  return updateObject(state, {
+    updateErrorResponse: action.error,
+    loadingUpdate: false
+  });
+};
+
 //Indicadores
 const fetchIndicatorStart = state => {
   return updateObject(state, { loadingIndicators: true });
@@ -245,15 +265,15 @@ const reducer = (state = initState, action) => {
     // case actionTypes.DELETE_VAR_FAIL:
     //   return deleteVarFail(state, action);
 
-    // //Actualizar Variable
-    // case actionTypes.UPDATE_VAR_START:
-    //   return updateVarStart(state);
+    //Actualizar Variable
+    case actionTypes.UPDATE_DISP_START:
+      return updateDispStart(state);
 
-    // case actionTypes.UPDATE_VAR_SUCCESS:
-    //   return updateVarSuccess(state, action);
+    case actionTypes.UPDATE_DISP_SUCCESS:
+      return updateDispSuccess(state, action);
 
-    // case actionTypes.UPDATE_VAR_FAIL:
-    //   return updateVarFail(state, action);
+    case actionTypes.UPDATE_DISP_FAIL:
+      return updateDispFail(state, action);
 
     //Indicadores
     case actionTypes.FETCH_INDICATOR_START:

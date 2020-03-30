@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import InteractiveMap, { GeolocateControl, Marker } from "react-map-gl";
+import InteractiveMap, { Marker } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 
 // const TOKEN = config.REACT_APP_TOKEN;
@@ -45,7 +45,7 @@ const Map = props => {
         ))
       : null;
   }
-  if (props.info) {
+  if (props.info && !props.updateMode) {
     markerOnMap = (
       <Marker longitude={props.coor.long} latitude={props.coor.lat}>
         <span className="material-icons" style={{ color: "#62bc50" }}>
@@ -55,6 +55,31 @@ const Map = props => {
     );
   }
 
+  const [aux, setAux] = useState({
+    flag: true
+  });
+
+  if (props.info && props.updateMode) {
+    const longitude = props.coor.long;
+    const latitude = props.coor.lat;
+    if (aux.flag) {
+      setMarkers([{ longitude, latitude }]);
+      props.getPos(longitude, latitude);
+      setAux([{ flag: false }]);
+    }
+    markerOnMap = markers.length
+      ? markers.map((m, i) => (
+          // <Marker /> just places its children at the right lat lng.
+
+          <Marker {...m} key={i}>
+            <span className="material-icons" style={{ color: "#62bc50" }}>
+              place
+            </span>
+          </Marker>
+        ))
+      : null;
+  }
+
   return (
     <div>
       <InteractiveMap
@@ -62,7 +87,7 @@ const Map = props => {
         mapboxApiAccessToken={TOKEN}
         mapStyle="mapbox://styles/mapbox/streets-v11"
         onViewportChange={onViewportChange}
-        onClick={props.add ? marker : null}
+        onClick={props.add || props.updateMode ? marker : null}
       >
         {markerOnMap}
       </InteractiveMap>

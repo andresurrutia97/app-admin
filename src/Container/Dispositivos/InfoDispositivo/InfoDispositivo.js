@@ -1,13 +1,69 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+
+import axios from "../../../axios";
+import WithErrorHandler from "../../../Hoc/WithErrorHandler/WithErrorHandler";
+import * as actions from "../store/actions";
+
 import styles from "./InfoDispositivo.module.scss";
 import Map from "../Map/Map";
 import Variables from "../../../Components/Tablas/Dispositivos/Variables/Variables";
+import Modal from "../../../Components/UI/Modal/Modal";
+import AñadirDispositivo from "../AñadirDispositivo/AñadirDispositivo";
 
 export class InfoDispositivo extends Component {
-  dispInfo = this.props.location.state;
+  constructor(props) {
+    super(props);
+    this.state = {
+      addOpen: false,
+      updateInfo: null,
+      updateMode: false,
+      deleteMode: false,
+      openAlert: false
+    };
+  }
+  dispInfo = this.props.location.state.params;
+
+  //abre el modal para actualizar dispositivo
+  addDispModalHandler = () => {
+    this.setState({ updateInfo: null, updateMode: false, addOpen: true });
+  };
+
+  //cierra el modal para actualizar dispositivo
+  closeModalHandler = () => {
+    this.setState({ addOpen: false });
+  };
+
+  //Funcion para borrar un dispositivo
+  deleteVarHandler = id => {
+    this.setState({ deleteMode: true, updateMode: false });
+    this.props.onDeleteVar(id);
+    this.messageResOpen();
+  };
+
+  //Funcion para actualizar la informacion del dispositivo a modificar
+  openUpdateDispHandler = updateData => {
+    this.setState({
+      updateInfo: updateData,
+      updateMode: true,
+      addOpen: true,
+      deleteMode: false
+    });
+  };
+  //Actualizar dispositivo
+  updateDispHandler = (data, id) => {
+    let aux = {};
+    for (let dt in data) {
+      if (data[dt] !== this.dispInfo[dt]) {
+        aux[dt] = data[dt];
+      }
+    }
+    this.props.onUpdateDisp(id, aux);
+    this.props.history.goBack();
+    // this.messageResOpen();
+  };
 
   render() {
-    console.log(this.dispInfo);
     const nombre = this.dispInfo.dispositivo;
     const marca = this.dispInfo.marca;
     const modelo = this.dispInfo.modelo;
@@ -15,14 +71,24 @@ export class InfoDispositivo extends Component {
     const desc = this.dispInfo.descripcion;
     const varData = this.dispInfo.variables;
     const coordenadas = this.dispInfo.coordenadas;
-    // console.log(this.dispInfo);
+
     return (
       <div className={styles.Root}>
+        <Modal open={this.state.addOpen} close={this.closeModalHandler}>
+          <AñadirDispositivo
+            open={this.state.addOpen}
+            close={this.closeModalHandler}
+            updateDisp={this.updateDispHandler}
+            updateMode={this.state.updateMode}
+            updateData={this.dispInfo}
+            // openMess={this.messageResOpen}
+          />
+        </Modal>
         <div className={styles.Header}>
           <h2>{nombre}</h2>
           <div className={styles.Buttons}>
             <button>eliminar</button>
-            <button>modificar</button>
+            <button onClick={this.openUpdateDispHandler}>modificar</button>
           </div>
         </div>
         <div className={styles.newHr} />
@@ -70,4 +136,19 @@ export class InfoDispositivo extends Component {
   }
 }
 
-export default InfoDispositivo;
+const mapStateToProps = state => {
+  return {
+    dispositivos: state.disps.dispositivos,
+    loadingDisps: state.disps.loading
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onUpdateDisp: (id, data) => dispatch(actions.updateDisp(id, data))
+  };
+};
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(WithErrorHandler(InfoDispositivo, axios));

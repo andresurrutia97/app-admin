@@ -17,10 +17,7 @@ export class Dispositivos extends Component {
     super();
     this.state = {
       addOpen: false,
-      updateInfo: null,
       addMode: false,
-      updateMode: false,
-      deleteMode: false,
       openAlert: false
     };
   }
@@ -29,31 +26,36 @@ export class Dispositivos extends Component {
     this.props.onFetchDisps();
   }
 
+  //Abre el modal para agregar dipositivo
   addDispModalHandler = () => {
-    this.setState({ updateInfo: null, updateMode: false, addOpen: true });
+    this.setState({ addOpen: true });
   };
 
+  //Cierra el modal para agregar dipositivo
   closeModalHandler = () => {
     this.setState({ addOpen: false });
   };
 
+  //Se encarga de recibir la informacion del nuevo dispositivo
+  //y hacer la conexion con la funcion del reducer para agregar el nuevo dispositvo
   addDispHandler = data => {
-    this.setState({ addMode: true, deleteMode: false, updateMode: false });
+    this.setState({ addMode: true });
     this.props.onAddDisp(data);
     // this.messageResOpen();
   };
 
+  //funcion que se pasa a cada card para que envíe al compoenente de
+  // información del dispositivo
   goTo = params => {
     this.props.history.push({
       pathname: "/infoDispo",
-      state: params 
+      state: { params: params, modalOPen: this.addDispModalHandler() }
     });
   };
 
   render() {
     let disps = <Spinner />;
     if (!this.props.loadingDisps) {
-      // console.log(this.props.dispositivos);
       disps = this.props.dispositivos.map(dis => {
         return (
           <Card
@@ -75,10 +77,6 @@ export class Dispositivos extends Component {
               open={this.state.addOpen}
               close={this.closeModalHandler}
               addDisp={this.addDispHandler}
-              updateVar={this.updateVarHandler}
-              updateMode={this.state.updateMode}
-              updateData={this.state.updateInfo}
-              // openMess={this.messageResOpen}
             />
           </Modal>
           <ButtonIcon clicked={this.addDispModalHandler}>Añadir</ButtonIcon>
