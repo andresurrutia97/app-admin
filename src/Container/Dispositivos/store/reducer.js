@@ -80,6 +80,26 @@ const updateDispFail = (state, action) => {
   });
 };
 
+//Elimianr dispositivo
+
+const deleteDispStart = state => {
+  return updateObject(state, { loadingDelete: true });
+};
+
+const deleteDispSuccess = (state, action) => {
+  return updateObject(state, {
+    deleteResponse: action.res,
+    loadingDelete: false
+  });
+};
+
+const deleteDispFail = (state, action) => {
+  return updateObject(state, {
+    deleteErrorResponse: action.error,
+    loadingDelete: false
+  });
+};
+
 //Indicadores
 const fetchIndicatorStart = state => {
   return updateObject(state, { loadingIndicators: true });
@@ -255,15 +275,15 @@ const reducer = (state = initState, action) => {
     case actionTypes.ADD_DISP_FAIL:
       return addDispFail(state, action);
 
-    // //Eliminar Variable
-    // case actionTypes.DELETE_VAR_START:
-    //   return deleteVarStart(state);
+    //Eliminar Variable
+    case actionTypes.DELETE_DISP_START:
+      return deleteDispStart(state);
 
-    // case actionTypes.DELETE_VAR_SUCCESS:
-    //   return deleteVarSuccess(state, action);
+    case actionTypes.DELETE_DISP_SUCCESS:
+      return deleteDispSuccess(state, action);
 
-    // case actionTypes.DELETE_VAR_FAIL:
-    //   return deleteVarFail(state, action);
+    case actionTypes.DELETE_DISP_FAIL:
+      return deleteDispFail(state, action);
 
     //Actualizar Variable
     case actionTypes.UPDATE_DISP_START:

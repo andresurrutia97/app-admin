@@ -34,13 +34,6 @@ export class InfoDispositivo extends Component {
     this.setState({ addOpen: false });
   };
 
-  //Funcion para borrar un dispositivo
-  deleteVarHandler = id => {
-    this.setState({ deleteMode: true, updateMode: false });
-    this.props.onDeleteVar(id);
-    this.messageResOpen();
-  };
-
   //Funcion para actualizar la informacion del dispositivo a modificar
   openUpdateDispHandler = updateData => {
     this.setState({
@@ -63,6 +56,13 @@ export class InfoDispositivo extends Component {
     // this.messageResOpen();
   };
 
+  //Funcion para borrar un dispositivo
+  deleteVarHandler = id => {
+    this.setState({ deleteMode: true, updateMode: false });
+    this.props.onDeleteDisp(id);
+    this.props.history.goBack();
+    // this.messageResOpen();
+  };
   render() {
     const nombre = this.dispInfo.dispositivo;
     const marca = this.dispInfo.marca;
@@ -87,7 +87,13 @@ export class InfoDispositivo extends Component {
         <div className={styles.Header}>
           <h2>{nombre}</h2>
           <div className={styles.Buttons}>
-            <button>eliminar</button>
+            <button
+              onClick={() => {
+                this.deleteVarHandler(this.dispInfo.id);
+              }}
+            >
+              eliminar
+            </button>
             <button onClick={this.openUpdateDispHandler}>modificar</button>
           </div>
         </div>
@@ -145,7 +151,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onUpdateDisp: (id, data) => dispatch(actions.updateDisp(id, data))
+    onUpdateDisp: (id, data) => dispatch(actions.updateDisp(id, data)),
+    onDeleteDisp: id => dispatch(actions.deleteDisp(id))
   };
 };
 export default connect(

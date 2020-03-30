@@ -152,44 +152,6 @@ export const addDisp = varData => {
   };
 };
 
-// //Eliminar variable
-
-// export const deleteVarStart = () => {
-//   return {
-//     type: actionTypes.DELETE_VAR_START
-//   };
-// };
-
-// export const deleteVarSuccess = res => {
-//   return {
-//     type: actionTypes.DELETE_VAR_SUCCESS,
-//     res: res
-//   };
-// };
-
-// export const deleteVarFail = error => {
-//   return {
-//     type: actionTypes.DELETE_VAR_FAIL,
-//     error: error
-//   };
-// };
-
-// export const deleteVar = id => {
-//   return dispatch => {
-//     dispatch(deleteVarStart());
-//     axios
-//       .delete("/vars/" + id + ".json")
-//       .then(res => {
-//         console.log(res);
-//         dispatch(deleteVarSuccess(res));
-//         dispatch(fetchDisps());
-//       })
-//       .catch(error => {
-//         console.log(error);
-//       });
-//   };
-// };
-
 //Actualizar variables
 
 export const updateDispStart = () => {
@@ -220,6 +182,45 @@ export const updateDisp = (id, data) => {
       .then(res => {
         console.log(res);
         dispatch(updateDispSuccess(res));
+        dispatch(fetchDisps());
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+};
+
+
+//// Eliminar variable
+
+export const deleteDispStart = () => {
+  return {
+    type: actionTypes.DELETE_DISP_START
+  };
+};
+
+export const deleteDispSuccess = res => {
+  return {
+    type: actionTypes.DELETE_DISP_SUCCESS,
+    res: res
+  };
+};
+
+export const deleteDispFail = error => {
+  return {
+    type: actionTypes.DELETE_DISP_FAIL,
+    error: error
+  };
+};
+
+export const deleteDisp = id => {
+  return dispatch => {
+    dispatch(deleteDispStart());
+    axios
+      .delete("/dispositivos/" + id + ".json")
+      .then(res => {
+        console.log(res);
+        dispatch(deleteDispSuccess(res));
         dispatch(fetchDisps());
       })
       .catch(error => {
