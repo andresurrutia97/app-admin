@@ -95,12 +95,21 @@ $textFontSize: 14px;
   }
 }
 
+.variablesHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .Variables_tabla {
   margin-top: 10px;
 }
 
 .Ubicacion {
   h3 {
+    height: 30px;
+    display: flex;
+    align-items: center;
     @include h3;
   }
 }
@@ -119,7 +128,7 @@ $textFontSize: 14px;
 
   .Header {
     flex-flow: row;
-    
+
     h2 {
       font-size: 22px;
     }

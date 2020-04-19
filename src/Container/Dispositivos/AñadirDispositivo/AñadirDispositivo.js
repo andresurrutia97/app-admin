@@ -72,6 +72,7 @@ export class AñadirDispositivo extends Component {
     const marcasArray = this.props.marcas;
     const stateForm = this.state.varForm;
 
+    // console.log(indicatorArray)
     const newFOrm = updateObject(stateForm, {
       indicador: updateObject(stateForm.indicador, {
         elementConfig: updateObject(stateForm.indicador.elementConfig, {

@@ -4,12 +4,15 @@ import { connect } from "react-redux";
 import axios from "../../../axios";
 import WithErrorHandler from "../../../Hoc/WithErrorHandler/WithErrorHandler";
 import * as actions from "../store/actions";
+import * as actionsAddVar from "../../AñadirVarUserDisp/store/actions";
 
 import styles from "./InfoDispositivo.module.scss";
 import Map from "../Map/Map";
 import Variables from "../../../Components/Tablas/Dispositivos/Variables/Variables";
 import Modal from "../../../Components/UI/Modal/Modal";
 import AñadirDispositivo from "../AñadirDispositivo/AñadirDispositivo";
+import Button from "../../../Components/UI/Button/Button";
+import AñadirVarUserDisp from "../../AñadirVarUserDisp/AñadirVarUserDisp";
 
 export class InfoDispositivo extends Component {
   constructor(props) {
@@ -19,9 +22,12 @@ export class InfoDispositivo extends Component {
       updateInfo: null,
       updateMode: false,
       deleteMode: false,
-      openAlert: false
+      openAlert: false,
+      //añadir variable
+      addVarDispOpen: false,
     };
   }
+
   dispInfo = this.props.location.state.params;
 
   //abre el modal para actualizar dispositivo
@@ -34,15 +40,26 @@ export class InfoDispositivo extends Component {
     this.setState({ addOpen: false });
   };
 
+  //abre el modal para añadir variable a dispositivo
+  addVarDispModalHandler = () => {
+    this.setState({ addVarDispOpen: true });
+  };
+
+  //cierra el modal para añadir variable a dispositivo
+  closeAddVarDispModalHandler = () => {
+    this.setState({ addVarDispOpen: false });
+  };
+
   //Funcion para actualizar la informacion del dispositivo a modificar
-  openUpdateDispHandler = updateData => {
+  openUpdateDispHandler = (updateData) => {
     this.setState({
       updateInfo: updateData,
       updateMode: true,
       addOpen: true,
-      deleteMode: false
+      deleteMode: false,
     });
   };
+
   //Actualizar dispositivo
   updateDispHandler = (data, id) => {
     let aux = {};
@@ -56,13 +73,22 @@ export class InfoDispositivo extends Component {
     // this.messageResOpen();
   };
 
+  //Añadir variable
+  addVarHandler = (data) => {
+    const id = this.dispInfo.id;
+    this.props.onAddVar("dispositivos", id, data);
+    this.props.history.push("/dispositivos");
+    // this.messageResOpen();
+  };
+
   //Funcion para borrar un dispositivo
-  deleteVarHandler = id => {
+  deleteVarHandler = (id) => {
     this.setState({ deleteMode: true, updateMode: false });
     this.props.onDeleteDisp(id);
     this.props.history.goBack();
     // this.messageResOpen();
   };
+
   render() {
     const nombre = this.dispInfo.dispositivo;
     const marca = this.dispInfo.marca;
@@ -71,7 +97,8 @@ export class InfoDispositivo extends Component {
     const desc = this.dispInfo.descripcion;
     const varData = this.dispInfo.variables;
     const coordenadas = this.dispInfo.coordenadas;
-
+    // console.log(varData);
+    
     return (
       <div className={styles.Root}>
         <Modal open={this.state.addOpen} close={this.closeModalHandler}>
@@ -84,14 +111,20 @@ export class InfoDispositivo extends Component {
             // openMess={this.messageResOpen}
           />
         </Modal>
+        <Modal
+          open={this.state.addVarDispOpen}
+          close={this.closeAddVarDispModalHandler}
+        >
+          <AñadirVarUserDisp
+            open={this.state.addVarDispOpen}
+            close={this.closeAddVarDispModalHandler}
+            addVar={this.addVarHandler}
+          />
+        </Modal>
         <div className={styles.Header}>
           <h2>{nombre}</h2>
           <div className={styles.Buttons}>
-            <button
-              onClick={() => {
-                this.deleteVarHandler(this.dispInfo.id);
-              }}
-            >
+            <button onClick={() => this.deleteVarHandler(this.dispInfo.id)}>
               eliminar
             </button>
             <button onClick={this.openUpdateDispHandler}>modificar</button>
@@ -124,7 +157,17 @@ export class InfoDispositivo extends Component {
           </div>
           <div className={styles.Content_varUbiItems}>
             <div className={styles.Variables}>
-              <h3>Variables</h3>
+              <div className={styles.variablesHeader}>
+                <h3>Variables</h3>
+                <Button
+                  small
+                  btntype={"Success"}
+                  clicked={this.addVarDispModalHandler}
+                >
+                  Añadir
+                </Button>
+              </div>
+
               <div className={styles.Variables_tabla}>
                 <Variables data={varData} />
               </div>
@@ -142,19 +185,22 @@ export class InfoDispositivo extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     dispositivos: state.disps.dispositivos,
-    loadingDisps: state.disps.loading
+    loadingDisps: state.disps.loading,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     onUpdateDisp: (id, data) => dispatch(actions.updateDisp(id, data)),
-    onDeleteDisp: id => dispatch(actions.deleteDisp(id))
+    onDeleteDisp: (id) => dispatch(actions.deleteDisp(id)),
+    onAddVar: (type, id, data) =>
+      dispatch(actionsAddVar.addVar(type, id, data)),
   };
 };
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps

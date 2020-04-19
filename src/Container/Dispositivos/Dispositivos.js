@@ -18,7 +18,7 @@ export class Dispositivos extends Component {
     this.state = {
       addOpen: false,
       addMode: false,
-      openAlert: false
+      openAlert: false,
     };
   }
 
@@ -38,7 +38,7 @@ export class Dispositivos extends Component {
 
   //Se encarga de recibir la informacion del nuevo dispositivo
   //y hacer la conexion con la funcion del reducer para agregar el nuevo dispositvo
-  addDispHandler = data => {
+  addDispHandler = (data) => {
     this.setState({ addMode: true });
     this.props.onAddDisp(data);
     // this.messageResOpen();
@@ -46,17 +46,26 @@ export class Dispositivos extends Component {
 
   //funcion que se pasa a cada card para que envíe al compoenente de
   // información del dispositivo
-  goTo = params => {
+  goTo = (params) => {
     this.props.history.push({
       pathname: "/infoDispo",
-      state: { params: params, modalOPen: this.addDispModalHandler() }
+      state: {
+        params: params,
+        modalOPen: this.addDispModalHandler(),
+      },
     });
+  };
+
+  deleteVarHandler = (id) => {
+    this.props.onDeleteDisp(id);
+
+    // this.messageResOpen();
   };
 
   render() {
     let disps = <Spinner />;
     if (!this.props.loadingDisps) {
-      disps = this.props.dispositivos.map(dis => {
+      disps = this.props.dispositivos.map((dis) => {
         return (
           <Card
             key={dis.id}
@@ -64,6 +73,7 @@ export class Dispositivos extends Component {
             indicador={dis.indicador}
             desc={dis.descripcion}
             more={() => this.goTo(dis)}
+            delete={() => this.deleteVarHandler(dis.id)}
           />
         );
       });
@@ -87,17 +97,18 @@ export class Dispositivos extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     dispositivos: state.disps.dispositivos,
-    loadingDisps: state.disps.loading
+    loadingDisps: state.disps.loading,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     onFetchDisps: () => dispatch(actions.fetchDisps()),
-    onAddDisp: dispData => dispatch(actions.addDisp(dispData))
+    onAddDisp: (dispData) => dispatch(actions.addDisp(dispData)),
+    onDeleteDisp: (id) => dispatch(actions.deleteDisp(id)),
   };
 };
 export default connect(

@@ -21,31 +21,37 @@ const initState = {
   //Actualizar
   loadingUpdate: false,
   updateResponse: null,
-  updateErrorResponse: null
+  updateErrorResponse: null,
+  //Add var disp
+  varDisp: null,
+  loadingVarDisp: false,
+  //infoVariables
+  vars: null,
+  loadingVars: false,
 };
 
 //Variables
-const fetchDispsStart = state => {
+const fetchDispsStart = (state) => {
   return updateObject(state, { loading: true });
 };
 
 const fetchDispsSuccess = (state, action) => {
   return updateObject(state, {
     dispositivos: action.disps,
-    loading: false
+    loading: false,
   });
 };
 
 const fetchDispsFail = (state, action) => {
   return updateObject(state, {
     error: action.error,
-    loading: true
+    loading: true,
   });
 };
 
 //Añadir variables
 
-const addDispStart = state => {
+const addDispStart = (state) => {
   return updateObject(state, { loadingAdd: true });
 };
 
@@ -56,203 +62,128 @@ const addDispSuccess = (state, action) => {
 const addDispFail = (state, action) => {
   return updateObject(state, {
     addErrorResponse: action.error,
-    loadingAdd: false
+    loadingAdd: false,
   });
 };
 
 //Actualizar dispositivo
 
-const updateDispStart = state => {
+const updateDispStart = (state) => {
   return updateObject(state, { loadingUpdate: true });
 };
 
 const updateDispSuccess = (state, action) => {
   return updateObject(state, {
     updateResponse: action.res,
-    loadingUpdate: false
+    loadingUpdate: false,
   });
 };
 
 const updateDispFail = (state, action) => {
   return updateObject(state, {
     updateErrorResponse: action.error,
-    loadingUpdate: false
+    loadingUpdate: false,
   });
 };
 
 //Elimianr dispositivo
 
-const deleteDispStart = state => {
+const deleteDispStart = (state) => {
   return updateObject(state, { loadingDelete: true });
 };
 
 const deleteDispSuccess = (state, action) => {
   return updateObject(state, {
     deleteResponse: action.res,
-    loadingDelete: false
+    loadingDelete: false,
   });
 };
 
 const deleteDispFail = (state, action) => {
   return updateObject(state, {
     deleteErrorResponse: action.error,
-    loadingDelete: false
+    loadingDelete: false,
   });
 };
 
 //Indicadores
-const fetchIndicatorStart = state => {
+const fetchIndicatorStart = (state) => {
   return updateObject(state, { loadingIndicators: true });
 };
 
 const fetchIndicatorSuccess = (state, action) => {
   return updateObject(state, {
     indicators: action.indicators,
-    loadingIndicators: false
+    loadingIndicators: false,
   });
 };
 
 const fetchIndicatorFail = (state, action) => {
   return updateObject(state, {
     errorIndicator: action.error,
-    loadingIndicators: true
+    loadingIndicators: true,
   });
 };
 
 //Marcas
-const fetchMarcasStart = state => {
+const fetchMarcasStart = (state) => {
   return updateObject(state, { loadingMarcas: true });
 };
 
 const fetchMarcasSuccess = (state, action) => {
   return updateObject(state, {
     marcas: action.marcas,
-    loadingMarcas: false
+    loadingMarcas: false,
   });
 };
 
 const fetchMarcasFail = (state, action) => {
   return updateObject(state, {
     errorMarcas: action.error,
-    loadingMarcas: true
+    loadingMarcas: true,
   });
 };
 
-//Unidades de medida
-// const fetchUniMedStart = state => {
-//   return updateObject(state, { loadingUniMeds: true });
-// };
+//add var disp
 
-// const fetchUniMedSuccess = (state, action) => {
-//   return updateObject(state, {
-//     unidadesMedida: action.uniMed,
-//     loadingUniMed: false
-//   });
-// };
+const addVarDispStart = (state) => {
+  return updateObject(state, {
+    loadingVarDisp: true,
+  });
+};
 
-// const fetchUniMedFail = (state, action) => {
-//   return updateObject(state, {
-//     error: action.error,
-//     loadingUniMeds: true
-//   });
-// };
+const addVarDispSuccess = (state, action) => {
+  return updateObject(state, {
+    varDisp: action.res,
+    loadingVarDisp: false,
+  });
+};
 
-// //Indicadores
+const addVarDispFail = (state, action) => {
+  return updateObject(state, {
+    loadingVarDisp: true,
+    error: action.error,
+  });
+};
 
-// const fetchIndicatorStart = state => {
-//   return updateObject(state, { loadingIndicators: true });
-// };
+//Consultar variables
+const fetchVarsStart = (state) => {
+  return updateObject(state, { loadingVars: true });
+};
 
-// const fetchIndicatorSuccess = (state, action) => {
-//   return updateObject(state, {
-//     indicators: action.indicators,
-//     loadingIndicators: false
-//   });
-// };
+const fetchVarsSuccess = (state, action) => {
+  return updateObject(state, {
+    vars: action.vars,
+    loadingVars: false,
+  });
+};
 
-// const fetchIndicatorFail = (state, action) => {
-//   return updateObject(state, {
-//     error: action.error,
-//     loadingIndicators: true
-//   });
-// };
-
-// //Periodicidad
-
-// const fetchPeriodsStart = state => {
-//   return updateObject(state, { loadingIndicators: true });
-// };
-
-// const fetchPeriodsSuccess = (state, action) => {
-//   return updateObject(state, {
-//     periods: action.periods,
-//     loadingPeriods: false
-//   });
-// };
-
-// const fetchPeriodsFail = (state, action) => {
-//   return updateObject(state, {
-//     error: action.error,
-//     loadingPeriods: true
-//   });
-// };
-
-// //Añadir variables
-
-// const addVarStart = state => {
-//   return updateObject(state, { loadingAdd: true });
-// };
-
-// const addVarSuccess = (state, action) => {
-//   return updateObject(state, { addResponse: action.res, loadingAdd: false });
-// };
-
-// const addVarFail = (state, action) => {
-//   return updateObject(state, {
-//     addErrorResponse: action.error,
-//     loadingAdd: false
-//   });
-// };
-
-// //Eliminar variables
-
-// const deleteVarStart = state => {
-//   return updateObject(state, { loadingDelete: true });
-// };
-
-// const deleteVarSuccess = (state, action) => {
-//   return updateObject(state, {
-//     deleteResponse: action.res,
-//     loadingDelete: false
-//   });
-// };
-
-// const deleteVarFail = (state, action) => {
-//   return updateObject(state, {
-//     deleteErrorResponse: action.error,
-//     loadingDelete: false
-//   });
-// };
-
-// //Actualizar variables
-
-// const updateVarStart = state => {
-//   return updateObject(state, { loadingUpdate: true });
-// };
-
-// const updateVarSuccess = (state, action) => {
-//   return updateObject(state, {
-//     updateResponse: action.res,
-//     loadingUpdate: false
-//   });
-// };
-
-// const updateVarFail = (state, action) => {
-//   return updateObject(state, {
-//     updateErrorResponse: action.error,
-//     loadingUpdate: false
-//   });
-// };
+const fetchVarsFail = (state, action) => {
+  return updateObject(state, {
+    errorVar: action.error,
+    loadingVars: true,
+  });
+};
 const reducer = (state = initState, action) => {
   switch (action.type) {
     //Variables
@@ -314,6 +245,16 @@ const reducer = (state = initState, action) => {
 
     case actionTypes.FETCH_MARCA_FAIL:
       return fetchMarcasFail(state, action);
+
+    //Marcas
+    case actionTypes.ADD_VAR_DISP_SUCCESS:
+      return addVarDispStart(state);
+
+    case actionTypes.ADD_VAR_DISP_SUCCESS:
+      return addVarDispSuccess(state, action);
+
+    case actionTypes.ADD_VAR_DISP_FAIL:
+      return addVarDispFail(state, action);
 
     default:
       return state;
