@@ -16,13 +16,14 @@ import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
 import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
 import LastPageIcon from "@material-ui/icons/LastPage";
 
+import Popover from "../../UI/Popover/Popover";
 import styles from "../../../styles/tables.module.scss";
 
-const useStyles1 = makeStyles(theme => ({
+const useStyles1 = makeStyles((theme) => ({
   root: {
     flexShrink: 0,
-    marginLeft: theme.spacing(2.5)
-  }
+    marginLeft: theme.spacing(2.5),
+  },
 }));
 
 function TablePaginationActions(props) {
@@ -30,19 +31,19 @@ function TablePaginationActions(props) {
   const theme = useTheme();
   const { count, page, rowsPerPage, onChangePage } = props;
 
-  const handleFirstPageButtonClick = event => {
+  const handleFirstPageButtonClick = (event) => {
     onChangePage(event, 0);
   };
 
-  const handleBackButtonClick = event => {
+  const handleBackButtonClick = (event) => {
     onChangePage(event, page - 1);
   };
 
-  const handleNextButtonClick = event => {
+  const handleNextButtonClick = (event) => {
     onChangePage(event, page + 1);
   };
 
-  const handleLastPageButtonClick = event => {
+  const handleLastPageButtonClick = (event) => {
     onChangePage(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
   };
 
@@ -92,16 +93,16 @@ TablePaginationActions.propTypes = {
   count: PropTypes.number.isRequired,
   onChangePage: PropTypes.func.isRequired,
   page: PropTypes.number.isRequired,
-  rowsPerPage: PropTypes.number.isRequired
+  rowsPerPage: PropTypes.number.isRequired,
 };
 
 const useStyles2 = makeStyles({
   table: {
-    minWidth: 500
-  }
+    minWidth: 500,
+  },
 });
 
-const CustomPaginationActionsTable = props => {
+const CustomPaginationActionsTable = (props) => {
   const data = [...props.users];
   const classes = useStyles2();
   const [page, setPage] = React.useState(0);
@@ -114,7 +115,7 @@ const CustomPaginationActionsTable = props => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = event => {
+  const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
@@ -123,38 +124,41 @@ const CustomPaginationActionsTable = props => {
   const headers = [
     {
       label: "Nombre",
-      align: "left"
+      align: "left",
     },
     {
       label: "Correo",
-      align: "right"
+      align: "right",
     },
     {
       label: "Dependencia",
-      align: "right"
+      align: "right",
     },
     {
       label: "Cargo",
-      align: "right"
+      align: "right",
     },
     {
       label: "Ingreso",
-      align: "right"
+      align: "right",
     },
     {
       label: "Extensión",
-      align: "right"
+      align: "right",
     },
     {
       label: "Perfil",
-      align: "right"
-    }
+      align: "right",
+    },
+    {
+      label: "",
+    },
   ];
 
   //Estado para el manejo de columnas seleccionadas
   const [selected, setSelected] = React.useState([]);
 
-  const handleClick = id => {
+  const handleClick = (id) => {
     props.clickedUser(id);
     setSelected(id);
   };
@@ -189,7 +193,7 @@ const CustomPaginationActionsTable = props => {
                 classes={{ selected: styles.Selected }}
                 className={styles.Rows}
                 selected={selected === dt.id}
-                onClick={id => handleClick(dt.id)}
+                onClick={(id) => handleClick(dt.id)}
               >
                 <TableCell>{dt.nombre}</TableCell>
                 <TableCell align="right">{dt.correo}</TableCell>
@@ -198,6 +202,20 @@ const CustomPaginationActionsTable = props => {
                 <TableCell align="right">{dt.ingresoP}</TableCell>
                 <TableCell align="right">{dt.extension}</TableCell>
                 <TableCell align="right">{dt.perfil}</TableCell>
+                <TableCell align="right">
+                  <Popover>
+                    <div className={styles.Options}>
+                      <div onClick={() => props.updateUser(dt)}>
+                        Modificar
+                        <i className="material-icons-outlined">edit</i>
+                      </div>
+                      <div onClick={() => props.deleteUser(dt.id)}>
+                        Eliminar
+                        <i className="material-icons-outlined">delete</i>
+                      </div>
+                    </div>
+                  </Popover>
+                </TableCell>
               </TableRow>
             );
           })}
@@ -219,7 +237,7 @@ const CustomPaginationActionsTable = props => {
               page={page}
               SelectProps={{
                 inputProps: { "aria-label": "hola" },
-                native: true
+                native: true,
               }}
               onChangePage={handleChangePage}
               onChangeRowsPerPage={handleChangeRowsPerPage}

@@ -4,24 +4,37 @@ import { updateObject } from "../../../shared/utility";
 const initState = {
   users: [],
   loading: false,
-  userVarInfo: null
+  userVarInfo: null,
+  //CRUD
+  //Añadir
+  loadingAdd: false,
+  addResponse: null,
+  addErrorResponse: null,
+  //Eliminar
+  loadingDelete: false,
+  deleteResponse: null,
+  deleteErrorResponse: null,
+  //Actualizar
+  loadingUpdate: false,
+  updateResponse: null,
+  updateErrorResponse: null,
 };
 
-const fetchUserStart = state => {
+const fetchUserStart = (state) => {
   return updateObject(state, { loading: true });
 };
 
 const fetchUserSuccess = (state, action) => {
   return updateObject(state, {
     users: action.users,
-    loading: false
+    loading: false,
   });
 };
 
 const fetchUserFail = (state, action) => {
   return updateObject(state, {
     error: action.error,
-    loading: true
+    loading: true,
   });
 };
 
@@ -37,8 +50,66 @@ const showUsersVars = (state, action) => {
   return updateObject(state, { userVarInfo: varInfo });
 };
 
+//Añadir usuario
+
+const addUserStart = (state) => {
+  return updateObject(state, { loadingAdd: true });
+};
+
+const addUserSuccess = (state, action) => {
+  return updateObject(state, { addResponse: action.res, loadingAdd: false });
+};
+
+const addUserFail = (state, action) => {
+  return updateObject(state, {
+    addErrorResponse: action.error,
+    loadingAdd: false,
+  });
+};
+
+//Eliminar usuario
+
+const deleteUserStart = (state) => {
+  return updateObject(state, { loadingDelete: true });
+};
+
+const deleteUserSuccess = (state, action) => {
+  return updateObject(state, {
+    deleteResponse: action.res,
+    loadingDelete: false,
+  });
+};
+
+const deleteUserFail = (state, action) => {
+  return updateObject(state, {
+    deleteErrorResponse: action.error,
+    loadingDelete: false,
+  });
+};
+
+//Actualizar usuario
+
+const updateUserStart = (state) => {
+  return updateObject(state, { loadingUpdate: true });
+};
+
+const updateUserSuccess = (state, action) => {
+  return updateObject(state, {
+    updateResponse: action.res,
+    loadingUpdate: false,
+  });
+};
+
+const updateUserFail = (state, action) => {
+  return updateObject(state, {
+    updateErrorResponse: action.error,
+    loadingUpdate: false,
+  });
+};
+
 const reducer = (state = initState, action) => {
   switch (action.type) {
+    //Buscar usuarios
     case actionTypes.FETCH_USERS_START:
       return fetchUserStart(state);
 
@@ -48,8 +119,39 @@ const reducer = (state = initState, action) => {
     case actionTypes.FETCH_USERS_FAIL:
       return fetchUserFail(state, action);
 
+    //mostrar variables de usuarios
     case actionTypes.SHOW_USER_VARS:
       return showUsersVars(state, action);
+
+    //añadir usuario
+    case actionTypes.ADD_USER_START:
+      return addUserStart(state);
+
+    case actionTypes.ADD_USER_SUCCES:
+      return addUserSuccess(state, action);
+
+    case actionTypes.ADD_USER_FAIL:
+      return addUserFail(state, action);
+
+    //Eliminar usuario
+    case actionTypes.DELETE_USER_START:
+      return deleteUserStart(state);
+
+    case actionTypes.DELETE_USER_SUCCES:
+      return deleteUserSuccess(state, action);
+
+    case actionTypes.DELETE_USER_FAIL:
+      return deleteUserFail(state, action);
+
+    //actualizar usuario
+    case actionTypes.UPDATE_USER_START:
+      return updateUserStart(state);
+
+    case actionTypes.UPDATE_USER_SUCCES:
+      return updateUserSuccess(state, action);
+
+    case actionTypes.UPDATE_USER_FAIL:
+      return updateUserFail(state, action);
 
     default:
       return state;

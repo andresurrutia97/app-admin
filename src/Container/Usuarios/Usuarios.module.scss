@@ -1,5 +1,16 @@
 @import "../../styles/global.module";
 
+
+.Header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.MessageRes {
+  text-align: center;
+}
+
 .TableUsers {
   width: 100%;
   margin-bottom: 16px;

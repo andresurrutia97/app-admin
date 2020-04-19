@@ -7,3 +7,18 @@ export const FETCH_USERS_FAIL = "FETCH_USERS_FAIL";
 
 //Mostar info de variables de usuarios
 export const SHOW_USER_VARS = "SHOW_USER_VARS";
+
+//Añadir usuario
+export const ADD_USER_START = "ADD_USER";
+export const ADD_USER_SUCCES = "ADD_USER";
+export const ADD_USER_FAIL = "ADD_USER";
+
+//Añadir usuario
+export const DELETE_USER_START = "DELETE_USER_START";
+export const DELETE_USER_SUCCES = "DELETE_USER_SUCCES";
+export const DELETE_USER_FAIL = "DELETE_USER_FAIL";
+
+//Añadir usuario
+export const UPDATE_USER_START = "UPDATE_USER_START";
+export const UPDATE_USER_SUCCES = "UPDATE_USER_SUCCES";
+export const UPDATE_USER_FAIL = "UPDATE_USER_FAIL";
