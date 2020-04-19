@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./Card.module.scss";
 
-const Card = props => {
+const Card = (props) => {
   return (
     <div className={styles.Card}>
       <div className={styles.Name}>{props.nombre}</div>

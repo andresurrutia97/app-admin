@@ -208,7 +208,7 @@ export class AñadirVariable extends Component {
             <div className={styles.Form}>{form}</div>
 
             <div className={styles.Actions}>
-              <Button clicked={this.props.close} type={"Cancel"}>
+              <Button clicked={this.props.close} btntype={"Cancel"}>
                 Cancelar
               </Button>
               <Button
@@ -217,7 +217,7 @@ export class AñadirVariable extends Component {
                     ? this.addVarHandler
                     : this.updateVarHandler
                 }
-                type={"Success"}
+                btntype={"Success"}
                 disabled={!this.state.formIsValid}
               >
                 Aceptar

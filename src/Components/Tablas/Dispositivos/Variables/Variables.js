@@ -9,12 +9,11 @@ import Paper from "@material-ui/core/Paper";
 
 import styles from "../../../../styles/tables.module.scss";
 
-const CustomPaginationActionsTable = props => {
-  // console.log(props.data);
+const CustomPaginationActionsTable = (props) => {
   const info = props.data ? (
-    props.data.map((dt, index) => (
+    Object.values(props.data).map((dt, index) => (
       <TableRow key={index}>
-        <TableCell>{dt.nombre}</TableCell>
+        <TableCell>{dt.variable}</TableCell>
       </TableRow>
     ))
   ) : (

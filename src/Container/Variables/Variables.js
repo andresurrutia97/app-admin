@@ -14,14 +14,18 @@ import ButtonIcon from "../../Components/UI/ButtonIcon/ButtonIcon";
 import MessageRes from "../../Components/UI/MessageRes/MessageRes";
 
 export class Variables extends Component {
-  state = {
-    addOpen: false,
-    updateInfo: null,
-    addMode: false,
-    updateMode: false,
-    deleteMode: false,
-    openAlert: false
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      addOpen: false,
+      updateInfo: null,
+      addMode: false,
+      updateMode: false,
+      deleteMode: false,
+      openAlert: false,
+    };
+  }
+
   componentDidMount() {
     this.props.onFetchVars();
   }
@@ -41,7 +45,7 @@ export class Variables extends Component {
     }, 5000);
   };
 
-  addVArHandler = data => {
+  addVArHandler = (data) => {
     this.setState({ addMode: true, deleteMode: false, updateMode: false });
     this.props.onAddVar(data);
     this.messageResOpen();
@@ -53,13 +57,13 @@ export class Variables extends Component {
     this.messageResOpen();
   };
 
-  openUpdateVarHandler = updateData => {
+  openUpdateVarHandler = (updateData) => {
     this.setState({
       updateInfo: updateData,
       updateMode: true,
       addOpen: true,
       addMode: false,
-      deleteMode: false
+      deleteMode: false,
     });
   };
 
@@ -162,7 +166,7 @@ export class Variables extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     vars: state.vars.vars,
     loadingVars: state.vars.loading,
@@ -171,16 +175,16 @@ const mapStateToProps = state => {
     loadingDelete: state.vars.loadingDelete,
     deleteResponse: state.vars.deleteResponse,
     loadingUpdate: state.vars.loadingUpdate,
-    updateResponse: state.vars.updateResponse
+    updateResponse: state.vars.updateResponse,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     onFetchVars: () => dispatch(actions.fetchVars()),
-    onAddVar: varData => dispatch(actions.addVar(varData)),
-    onDeleteVar: id => dispatch(actions.deleteVar(id)),
-    onUpdateVar: (id, data) => dispatch(actions.updateVar(id, data))
+    onAddVar: (varData) => dispatch(actions.addVar(varData)),
+    onDeleteVar: (id) => dispatch(actions.deleteVar(id)),
+    onUpdateVar: (id, data) => dispatch(actions.updateVar(id, data)),
   };
 };
 export default connect(

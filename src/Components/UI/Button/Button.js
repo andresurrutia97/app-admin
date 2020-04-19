@@ -3,19 +3,18 @@ import Button from "@material-ui/core/Button";
 import styles from "./Button.module.scss";
 
 export default function IconLabelButtons(props) {
-  let classes = [styles[props.type]];
+  let classes = [styles[props.btntype]];
   if (props.disabled) {
-    classes = [styles[props.type], styles.Disabled];
+    classes = [styles[props.btntype], styles.Disabled];
   }
   return (
-    <div>
-      <Button
-        disabled={props.disabled}
-        className={classes.join(" ")}
-        onClick={props.clicked}
-      >
-        {props.children}
-      </Button>
-    </div>
+    <Button
+      disabled={props.disabled}
+      className={classes.join(" ")}
+      onClick={props.clicked}
+      size={props.small ? "small" : "medium"}
+    >
+      {props.children}
+    </Button>
   );
 }

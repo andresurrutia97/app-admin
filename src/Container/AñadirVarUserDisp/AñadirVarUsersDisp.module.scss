@@ -1,0 +1,48 @@
+.Form {
+}
+
+.Label {
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: 600;
+  font-size: 24px;
+}
+
+.Description {
+  margin-bottom: 20px;
+}
+
+.Actions {
+  display: flex;
+  justify-content: center;
+}
+
+@media (min-width: 600px) {
+  .Form {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+  }
+  .InputMedium {
+    grid-column: span 6;
+  }
+
+  .InputFull {
+    grid-column: span 12;
+  }
+
+  .Description {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .Actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 10px;
+
+    Button {
+      margin-left: 10px;
+      margin-top: 10px;
+    }
+  }
+}
