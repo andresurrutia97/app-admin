@@ -22,3 +22,8 @@ export const DELETE_USER_FAIL = "DELETE_USER_FAIL";
 export const UPDATE_USER_START = "UPDATE_USER_START";
 export const UPDATE_USER_SUCCES = "UPDATE_USER_SUCCES";
 export const UPDATE_USER_FAIL = "UPDATE_USER_FAIL";
+
+//Añadir variable a usuario
+export const ADD_VAR_START = "ADD_VAR_START";
+export const ADD_VAR_SUCCESS = "ADD_VAR_SUCCESS";
+export const ADD_VAR_FAIL = "ADD_VAR_FAIL";

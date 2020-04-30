@@ -37,8 +37,8 @@ export class AñadirVarUserDisp extends Component {
   }
 
   componentDidUpdate() {
-    //si esta en updateMode se actualiza los valores del Form con los del dispositivo seleccionado
     if (this.props.vars !== null && this.state.loading) {
+      console.log("didupdate")
       const updatedForm = this.updateVariableInfo();
       this.setState({
         varForm: updatedForm,
@@ -47,9 +47,11 @@ export class AñadirVarUserDisp extends Component {
     }
   }
 
+
+
   updateVariableInfo = () => {
     const varArray = [];
-
+    console.log(varArray);
     for (let i in this.props.vars) {
       varArray.push({
         value: this.props.vars[i].id,
@@ -109,7 +111,6 @@ export class AñadirVarUserDisp extends Component {
         formData = this.props.vars[i];
       }
     }
-
     this.props.addVar(formData);
     this.props.close();
     // this.props.openMess();

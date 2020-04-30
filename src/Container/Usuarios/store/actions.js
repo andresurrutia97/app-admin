@@ -96,35 +96,35 @@ export const addUser = (userData) => {
 
 export const deleteUserStart = () => {
   return {
-    type: actionTypes.DELETE_USER_START
+    type: actionTypes.DELETE_USER_START,
   };
 };
 
-export const deleteUserSuccess = res => {
+export const deleteUserSuccess = (res) => {
   return {
     type: actionTypes.DELETE_USER_SUCCES,
-    res: res
+    res: res,
   };
 };
 
-export const deleteUserFail = error => {
+export const deleteUserFail = (error) => {
   return {
     type: actionTypes.DELETE_USER_FAIL,
-    error: error
+    error: error,
   };
 };
 
-export const deleteUser = id => {
-  return dispatch => {
+export const deleteUser = (id) => {
+  return (dispatch) => {
     dispatch(deleteUserStart());
     axios
       .delete("/users/" + id + ".json")
-      .then(res => {
+      .then((res) => {
         // console.log(res);
         dispatch(deleteUserSuccess(res));
         dispatch(fetchUsers());
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   };
@@ -134,37 +134,74 @@ export const deleteUser = id => {
 
 export const updateUserStart = () => {
   return {
-    type: actionTypes.UPDATE_USER_START
+    type: actionTypes.UPDATE_USER_START,
   };
 };
 
-export const updateUserSuccess = res => {
+export const updateUserSuccess = (res) => {
   return {
     type: actionTypes.UPDATE_USER_SUCCES,
-    res: res
+    res: res,
   };
 };
 
-export const updateUserFail = error => {
+export const updateUserFail = (error) => {
   return {
     type: actionTypes.UPDATE_USER_FAIL,
-    error: error
+    error: error,
   };
 };
 
 export const updateUser = (id, data) => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(updateUserStart());
     axios
       .patch("/users/" + id + ".json", data)
-      .then(res => {
+      .then((res) => {
         console.log(res);
         dispatch(updateUserSuccess(res));
         dispatch(fetchUsers());
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   };
 };
 
+//// Añadir variable a usuario
+
+export const addVarStart = () => {
+  return {
+    type: actionTypes.ADD_VAR_START,
+  };
+};
+
+export const addVarSuccess = (res) => {
+  return {
+    type: actionTypes.ADD_VAR_SUCCESS,
+    res: res,
+  };
+};
+
+export const addVarFail = (error) => {
+  return {
+    type: actionTypes.ADD_VAR_FAIL,
+    error: error,
+  };
+};
+
+export const addVar = (id, data) => {
+  return (dispatch) => {
+    dispatch(addVarStart());
+    axios
+      .post("/users/" + id + "/variables/" + ".json", data)
+      .then((res) => {
+        console.log(res);
+        dispatch(addVarSuccess(res));
+        dispatch(fetchUsers());
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+};

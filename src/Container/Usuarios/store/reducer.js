@@ -18,6 +18,9 @@ const initState = {
   loadingUpdate: false,
   updateResponse: null,
   updateErrorResponse: null,
+  //Añadir variable
+  var: null,
+  loadingVar: false,
 };
 
 const fetchUserStart = (state) => {
@@ -107,6 +110,27 @@ const updateUserFail = (state, action) => {
   });
 };
 
+//Añadir variable a usuario
+const addVarStart = (state) => {
+  return updateObject(state, {
+    loadingVar: true,
+  });
+};
+
+const addVarSuccess = (state, action) => {
+  return updateObject(state, {
+    var: action.res,
+    loadingVar: false,
+  });
+};
+
+const addVarFail = (state, action) => {
+  return updateObject(state, {
+    loadingVar: true,
+    error: action.error,
+  });
+};
+
 const reducer = (state = initState, action) => {
   switch (action.type) {
     //Buscar usuarios
@@ -152,6 +176,16 @@ const reducer = (state = initState, action) => {
 
     case actionTypes.UPDATE_USER_FAIL:
       return updateUserFail(state, action);
+
+    //Añadir variable
+    case actionTypes.ADD_VAR_SUCCESS:
+      return addVarStart(state);
+
+    case actionTypes.ADD_VAR_SUCCESS:
+      return addVarSuccess(state, action);
+
+    case actionTypes.ADD_VAR_FAIL:
+      return addVarFail(state, action);
 
     default:
       return state;

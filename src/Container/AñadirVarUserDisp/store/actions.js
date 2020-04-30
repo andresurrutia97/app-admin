@@ -1,7 +1,7 @@
 import * as actionTypes from "./actionTypes";
 import axios from "../../../axios";
 
-//// Añadir vaiable a dispositovo
+//// Añadir variable 
 
 export const addVarStart = () => {
   return {
