@@ -2,14 +2,14 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import Input from "../../../Components/UI/Input/Input";
-import styles from "./AñadirVariable.module.scss";
+import styles from "./AñadirConstante.module.scss";
 import Button from "../../../Components/UI/Button/Button";
 import { updateObject, checkValidity } from "../../../shared/utility";
 import * as actions from "../store/actions";
 import FormModel from "./FormModel";
 import Spinner from "../../../Components/UI/Spinner/Spinner";
 
-export class AñadirVariable extends Component {
+export class AñadirConstante extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -27,12 +27,7 @@ export class AñadirVariable extends Component {
 
   //Se actualiza la informacion de los select del form con los traidos de la base de datos
   componentDidUpdate() {
-    if (
-      this.props.unidadesMedida !== null &&
-      this.props.indicators !== null &&
-      this.props.periods !== null &&
-      this.state.loading
-    ) {
+    if (this.props.unidadesMedida !== null && this.state.loading) {
       const updatedForm = this.updateUnimedsInfo();
 
       if (this.props.updateMode && this.props.updateData !== null) {
@@ -57,8 +52,6 @@ export class AñadirVariable extends Component {
   //Creaun nuevo arreglo con los elementos del select extraidos de la base
   updateUnimedsInfo = () => {
     const uniMedsArray = this.props.unidadesMedida;
-    const indicatorArray = this.props.indicators;
-    const periodsArray = this.props.periods;
     const stateForm = this.state.varForm;
 
     const newFOrm = updateObject(stateForm, {
@@ -67,18 +60,6 @@ export class AñadirVariable extends Component {
           options: uniMedsArray,
         }),
         value: uniMedsArray[0].value,
-      }),
-      indicador: updateObject(stateForm.indicador, {
-        elementConfig: updateObject(stateForm.indicador.elementConfig, {
-          options: indicatorArray,
-        }),
-        value: indicatorArray[0].value,
-      }),
-      periodicidad: updateObject(stateForm.periodicidad, {
-        elementConfig: updateObject(stateForm.periodicidad.elementConfig, {
-          options: periodsArray,
-        }),
-        value: periodsArray[0].value,
       }),
     });
     return newFOrm;
@@ -99,25 +80,15 @@ export class AñadirVariable extends Component {
   //Maneja la lectura de los inputs
   inputChangedHandler = (event, inputidentifier) => {
     let updatedFormElement = null;
-    if (inputidentifier === "reqEvidencia") {
-      updatedFormElement = updateObject(this.state.varForm[inputidentifier], {
-        value: event.target.checked,
-        valid: checkValidity(
-          event.target.value,
-          this.state.varForm[inputidentifier].validation
-        ),
-        touched: true,
-      });
-    } else {
-      updatedFormElement = updateObject(this.state.varForm[inputidentifier], {
-        value: event.target.value,
-        valid: checkValidity(
-          event.target.value,
-          this.state.varForm[inputidentifier].validation
-        ),
-        touched: true,
-      });
-    }
+
+    updatedFormElement = updateObject(this.state.varForm[inputidentifier], {
+      value: event.target.value,
+      valid: checkValidity(
+        event.target.value,
+        this.state.varForm[inputidentifier].validation
+      ),
+      touched: true,
+    });
 
     const updatedVarForm = updateObject(this.state.varForm, {
       [inputidentifier]: updatedFormElement,
@@ -134,16 +105,14 @@ export class AñadirVariable extends Component {
     });
   };
 
-  //Añadir variable
-
   addVarHandler = (event) => {
     event.preventDefault();
     const formData = {};
     for (let formEl in this.state.varForm) {
       formData[formEl] = this.state.varForm[formEl].value;
     }
-    console.log(formData);
-    this.props.addVar(formData);
+    // console.log(formData);
+    this.props.addConst(formData);
     this.props.close();
     // this.props.openMess();
   };
@@ -157,7 +126,7 @@ export class AñadirVariable extends Component {
       updatedInfo[formEl] = this.state.varForm[formEl].value;
     }
 
-    this.props.updateVar(updatedInfo, this.props.updateData.id);
+    // this.props.updateVar(updatedInfo, this.props.updateData.id);
     this.props.close();
     // this.props.openMess();
   };
@@ -230,22 +199,19 @@ export class AñadirVariable extends Component {
         </div>
       );
     }
-
     return <React.Fragment>{formFull}</React.Fragment>;
   }
 }
 
 const mapStateToProps = (state) => {
   return {
-    indicators: state.vars.indicators,
-    unidadesMedida: state.vars.unidadesMedida,
-    periods: state.vars.periods,
+    unidadesMedida: state.const.unidadesMedida,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onFetchInfo: () => dispatch(actions.fetchinfo()),
+    onFetchInfo: () => dispatch(actions.fetchUniMeds()),
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(AñadirVariable);
+export default connect(mapStateToProps, mapDispatchToProps)(AñadirConstante);

@@ -1,6 +1,5 @@
 import * as actionTypes from "./actionTypes";
 import { updateObject } from "../../../shared/utility";
-import MessageRes from "../../../Components/UI/MessageRes/MessageRes";
 
 const initState = {
   vars: [],
