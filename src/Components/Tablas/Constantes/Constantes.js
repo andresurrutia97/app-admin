@@ -196,11 +196,11 @@ const CustomPaginationActionsTable = (props) => {
                 <TableCell align="right">
                   <Popover>
                     <div className={styles.Options}>
-                      <div onClick={() => props.updateVar(dt)}>
+                      <div onClick={() => props.updateConst(dt)}>
                         Modificar
                         <i className="material-icons-outlined">edit</i>
                       </div>
-                      <div onClick={() => props.deleteVar(dt.id)}>
+                      <div onClick={() => props.deleteConst(dt.id)}>
                         Eliminar
                         <i className="material-icons-outlined">delete</i>
                       </div>

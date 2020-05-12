@@ -13,7 +13,7 @@ export class AñadirConstante extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      varForm: FormModel,
+      ConstForm: FormModel,
       formIsValid: false,
       loading: true,
     };
@@ -37,12 +37,12 @@ export class AñadirConstante extends Component {
         );
 
         this.setState({
-          varForm: updateData,
+          ConstForm: updateData,
           loading: false,
         });
       } else {
         this.setState({
-          varForm: updatedForm,
+          ConstForm: updatedForm,
           loading: false,
         });
       }
@@ -52,7 +52,7 @@ export class AñadirConstante extends Component {
   //Creaun nuevo arreglo con los elementos del select extraidos de la base
   updateUnimedsInfo = () => {
     const uniMedsArray = this.props.unidadesMedida;
-    const stateForm = this.state.varForm;
+    const stateForm = this.state.ConstForm;
 
     const newFOrm = updateObject(stateForm, {
       unidadMedida: updateObject(stateForm.unidadMedida, {
@@ -81,35 +81,35 @@ export class AñadirConstante extends Component {
   inputChangedHandler = (event, inputidentifier) => {
     let updatedFormElement = null;
 
-    updatedFormElement = updateObject(this.state.varForm[inputidentifier], {
+    updatedFormElement = updateObject(this.state.ConstForm[inputidentifier], {
       value: event.target.value,
       valid: checkValidity(
         event.target.value,
-        this.state.varForm[inputidentifier].validation
+        this.state.ConstForm[inputidentifier].validation
       ),
       touched: true,
     });
 
-    const updatedVarForm = updateObject(this.state.varForm, {
+    const updatedConstForm = updateObject(this.state.ConstForm, {
       [inputidentifier]: updatedFormElement,
     });
 
     let formIsValid = true;
-    for (let inputId in updatedVarForm) {
-      formIsValid = updatedVarForm[inputId].valid && formIsValid;
+    for (let inputId in updatedConstForm) {
+      formIsValid = updatedConstForm[inputId].valid && formIsValid;
     }
-    // console.log(updatedVarForm);
+    // console.log(updatedConstForm);
     this.setState({
-      varForm: updatedVarForm,
+      ConstForm: updatedConstForm,
       formIsValid: formIsValid,
     });
   };
 
-  addVarHandler = (event) => {
+  addConstHandler = (event) => {
     event.preventDefault();
     const formData = {};
-    for (let formEl in this.state.varForm) {
-      formData[formEl] = this.state.varForm[formEl].value;
+    for (let formEl in this.state.ConstForm) {
+      formData[formEl] = this.state.ConstForm[formEl].value;
     }
     // console.log(formData);
     this.props.addConst(formData);
@@ -119,24 +119,24 @@ export class AñadirConstante extends Component {
 
   //actualizar variable
 
-  updateVarHandler = (event) => {
+  updateConstHandler = (event) => {
     event.preventDefault();
     const updatedInfo = {};
-    for (let formEl in this.state.varForm) {
-      updatedInfo[formEl] = this.state.varForm[formEl].value;
+    for (let formEl in this.state.ConstForm) {
+      updatedInfo[formEl] = this.state.ConstForm[formEl].value;
     }
 
-    // this.props.updateVar(updatedInfo, this.props.updateData.id);
+    this.props.updateConst(updatedInfo, this.props.updateData.id);
     this.props.close();
     // this.props.openMess();
   };
 
   render() {
     const formElementsArray = [];
-    for (let key in this.state.varForm) {
+    for (let key in this.state.ConstForm) {
       formElementsArray.push({
         id: key,
-        config: this.state.varForm[key],
+        config: this.state.ConstForm[key],
       });
     }
 
@@ -176,7 +176,7 @@ export class AñadirConstante extends Component {
         <div>
           <div className={styles.Label}>{title}</div>
           <div className={styles.Description}>{desc}</div>
-          <form onSubmit={this.addVarHandler}>
+          <form onSubmit={this.addConstHandler}>
             <div className={styles.Form}>{form}</div>
 
             <div className={styles.Actions}>
@@ -186,8 +186,8 @@ export class AñadirConstante extends Component {
               <Button
                 clicked={
                   !this.props.updateMode
-                    ? this.addVarHandler
-                    : this.updateVarHandler
+                    ? this.addConstHandler
+                    : this.updateConstHandler
                 }
                 btntype={"Success"}
                 disabled={!this.state.formIsValid}

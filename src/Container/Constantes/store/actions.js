@@ -121,3 +121,79 @@ export const addConst = (varData) => {
       });
   };
 };
+
+//Eliminar variable
+
+export const deleteConstStart = () => {
+  return {
+    type: actionTypes.DELETE_CONST_START,
+  };
+};
+
+export const deleteConstSuccess = (res) => {
+  return {
+    type: actionTypes.DELETE_CONST_SUCCESS,
+    res: res,
+  };
+};
+
+export const deleteConstFail = (error) => {
+  return {
+    type: actionTypes.DELETE_CONST_FAIL,
+    error: error,
+  };
+};
+
+export const deleteConst = (id) => {
+  return (dispatch) => {
+    dispatch(deleteConstStart());
+    axios
+      .delete("/constantes/" + id + ".json")
+      .then((res) => {
+        console.log(res);
+        dispatch(deleteConstSuccess(res));
+        dispatch(fetchConst());
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+};
+
+//Actualizar constante
+
+export const updateConstStart = () => {
+  return {
+    type: actionTypes.UPDATE_CONST_START
+  };
+};
+
+export const updateConstSuccess = res => {
+  return {
+    type: actionTypes.UPDATE_CONST_SUCCESS,
+    res: res
+  };
+};
+
+export const updateConstFail = error => {
+  return {
+    type: actionTypes.UPDATE_CONST_FAIL,
+    error: error
+  };
+};
+
+export const updateConst = (id, data) => {
+  return dispatch => {
+    dispatch(updateConstStart());
+    axios
+      .patch("/constantes/" + id + ".json", data)
+      .then(res => {
+        console.log(res);
+        dispatch(updateConstSuccess(res));
+        dispatch(fetchConst());
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+};

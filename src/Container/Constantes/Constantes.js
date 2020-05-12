@@ -55,7 +55,8 @@ export class Constantes extends Component {
 
   deleteConstHandler = (id) => {
     this.setState({ addMode: false, deleteMode: true, updateMode: false });
-    // this.props.onDeleteVar(id);
+    console.log(id);
+    this.props.onDeleteConst(id);
     // this.messageResOpen();
   };
 
@@ -77,7 +78,8 @@ export class Constantes extends Component {
         aux[dt] = data[dt];
       }
     }
-    // this.props.onUpdateVar(id, aux);
+    console.log(aux);
+    this.props.onUpdateConst(id, aux);
     // this.messageResOpen();
   };
 
@@ -87,8 +89,8 @@ export class Constantes extends Component {
       datos = (
         <TablaConstantes
           vars={this.props.consts}
-          // deleteVar={this.deleteVarHandler}
-          // updateVar={this.openUpdateVarHandler}
+          deleteConst={this.deleteConstHandler}
+          updateConst={this.openUpdateConstHandler}
         />
       );
     }
@@ -97,16 +99,16 @@ export class Constantes extends Component {
     return (
       <React.Fragment>
         <div className={styles.Header}>
-          <Titulo>Evidencias</Titulo>
+          <Titulo>Constantes</Titulo>
           {/* {alert} */}
           <Modal open={this.state.addOpen} close={this.closeModalHandler}>
             <AñadirConstante
               open={this.state.addOpen}
               close={this.closeModalHandler}
               addConst={this.addConstHandler}
-              //   updateUser={this.updateUserHandler}
-              //   updateMode={this.state.updateMode}
-              //   updateData={this.state.updateInfo}
+              updateConst={this.updateConstHandler}
+              updateMode={this.state.updateMode}
+              updateData={this.state.updateInfo}
               // openMess={this.messageResOpen}
             />
           </Modal>
@@ -124,10 +126,10 @@ const mapStateToProps = (state) => {
     loadingConsts: state.const.loading,
     loadingAdd: state.const.loadingAdd,
     addResponse: state.const.addResponse,
-    // loadingDelete: state.vars.loadingDelete,
-    // deleteResponse: state.vars.deleteResponse,
-    // loadingUpdate: state.vars.loadingUpdate,
-    // updateResponse: state.vars.updateResponse,
+    loadingDelete: state.const.loadingDelete,
+    deleteResponse: state.const.deleteResponse,
+    loadingUpdate: state.const.loadingUpdate,
+    updateResponse: state.const.updateResponse,
   };
 };
 
@@ -135,8 +137,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onFetchConst: () => dispatch(actions.fetchConst()),
     onAddConst: (constData) => dispatch(actions.addConst(constData)),
-    // onDeleteVar: (id) => dispatch(actions.deleteVar(id)),
-    // onUpdateVar: (id, data) => dispatch(actions.updateVar(id, data)),
+    onDeleteConst: (id) => dispatch(actions.deleteConst(id)),
+    onUpdateConst: (id, data) => dispatch(actions.updateConst(id, data)),
   };
 };
 export default connect(

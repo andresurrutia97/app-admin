@@ -77,6 +77,26 @@ const addConstFail = (state, action) => {
   });
 };
 
+//Eliminar constante
+
+const deleteConstStart = state => {
+  return updateObject(state, { loadingDelete: true });
+};
+
+const deleteConstSuccess = (state, action) => {
+  return updateObject(state, {
+    deleteResponse: action.res,
+    loadingDelete: false
+  });
+};
+
+const deleteConstFail = (state, action) => {
+  return updateObject(state, {
+    deleteErrorResponse: action.error,
+    loadingDelete: false
+  });
+};
+
 const reducer = (state = initState, action) => {
   switch (action.type) {
     //Constantes
@@ -108,6 +128,16 @@ const reducer = (state = initState, action) => {
 
     case actionTypes.ADD_CONST_FAIL:
       return addConstFail(state, action);
+
+    //Eliminar Variable
+    case actionTypes.DELETE_CONST_START:
+      return deleteConstStart(state);
+
+    case actionTypes.DELETE_CONST_SUCCESS:
+      return deleteConstSuccess(state, action);
+
+    case actionTypes.DELETE_CONST_FAIL:
+      return deleteConstFail(state, action);
 
     default:
       return state;
