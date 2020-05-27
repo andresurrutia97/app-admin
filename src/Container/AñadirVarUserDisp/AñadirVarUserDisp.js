@@ -47,8 +47,6 @@ export class AñadirVarUserDisp extends Component {
     }
   }
 
-
-
   updateVariableInfo = () => {
     const varArray = [];
     console.log(varArray);
@@ -154,7 +152,7 @@ export class AñadirVarUserDisp extends Component {
           <div className={styles.Description}>
             Seleccionar los campos con las caracteristicas del nuevo dispositivo
           </div>
-          <form onSubmit={this.addVarHandler}>
+          <form>
             <div className={styles.Form}>{form}</div>
             <div className={styles.Actions}>
               <Button clicked={this.props.close} btntype={"Cancel"}>

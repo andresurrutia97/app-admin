@@ -38,3 +38,13 @@ export const FETCH_VAR_FAIL = "FETCH_VAR_FAIL";
 export const ADD_VAR_DISP_START = "ADD_VAR_DISP_START";
 export const ADD_VAR_DISP_SUCCESS = "ADD_VAR_DISP_SUCCESS";
 export const ADD_VAR_DISP_FAIL = "ADD_VAR_DISP_FAIL";
+
+//Añadir variable a usuario
+export const ADD_VAR_START = "ADD_VAR_START";
+export const ADD_VAR_SUCCESS = "ADD_VAR_SUCCESS";
+export const ADD_VAR_FAIL = "ADD_VAR_FAIL";
+
+//Eliminar variable a usuario
+export const DELETE_VAR_START = "DELETE_VAR_START";
+export const DELETE_VAR_SUCCESS = "DELETE_VAR_SUCCESS";
+export const DELETE_VAR_FAIL = "DELETE_VAR_FAIL";

@@ -228,36 +228,38 @@ export const deleteDisp = (id) => {
   };
 };
 
-//// Añadir vaiable a dispositovo
+//// Añadir variable a usuario
 
-export const addVarDispStart = () => {
+export const addVarStart = () => {
   return {
-    type: actionTypes.ADD_VAR_DISP_START,
+    type: actionTypes.ADD_VAR_START,
   };
 };
 
-export const addVarDispSuccess = (res) => {
+export const addVarSuccess = (res) => {
   return {
-    type: actionTypes.ADD_VAR_DISP_SUCCESS,
+    type: actionTypes.ADD_VAR_SUCCESS,
     res: res,
   };
 };
 
-export const addVarDispFail = (error) => {
+export const addVarFail = (error) => {
   return {
-    type: actionTypes.ADD_VAR_DISP_FAIL,
+    type: actionTypes.ADD_VAR_FAIL,
     error: error,
   };
 };
 
-export const addVarDisp = (id, data) => {
+export const addVar = (id, data) => {
   return (dispatch) => {
-    dispatch(addVarDispStart());
+    dispatch(addVarStart());
+    console.log(data);
     axios
-      .delete("/dispositivos/" + id + "/variables/" + ".json", data)
+      .put("/dispositivos/" + id + "/variables/" + data.id + ".json", data)
       .then((res) => {
         console.log(res);
-        dispatch(addVarDispSuccess(res));
+
+        dispatch(addVarSuccess(res));
         dispatch(fetchDisps());
       })
       .catch((error) => {
@@ -266,38 +268,42 @@ export const addVarDisp = (id, data) => {
   };
 };
 
-export const fetchVarsStart = () => {
+//// Eliminar variable a usuario
+
+export const deleteVarStart = () => {
   return {
-    type: actionTypes.FETCH_MARCA_START,
+    type: actionTypes.DELETE_VAR_START,
   };
 };
 
-export const fetchVarsSuccess = (marcas) => {
+export const deleteVarSuccess = (res) => {
   return {
-    type: actionTypes.FETCH_MARCA_SUCCESS,
-    marcas: marcas,
+    type: actionTypes.DELETE_VAR_SUCCESS,
+    res: res,
   };
 };
 
-export const fetchVarsFail = (error) => {
+export const deleteVarFail = (error) => {
   return {
-    type: actionTypes.FETCH_MARCA_FAIL,
+    type: actionTypes.DELETE_VAR_FAIL,
     error: error,
   };
 };
 
-//Nota: Axios.all no funciona con una instancia de axios, tiene que ser directamente la
-//objeto importado de la libreria
-export const fetchVars = () => {
+export const deleteVar = (idDisp, idVar) => {
   return (dispatch) => {
-    dispatch(fetchVarsStart());
-    axios.axios
-      .get("/vars.json")
+    dispatch(deleteVarStart());
+    axios
+      .delete("/dispositivos/" + idDisp + "/variables/" + idVar + ".json")
       .then((res) => {
-        dispatch(fetchVarsSuccess(Object.values(res.data)));
+        console.log(res);
+
+        dispatch(deleteVarSuccess(res));
+        dispatch(fetchDisps());
       })
       .catch((error) => {
-        dispatch(fetchVarsFail(error));
+        console.log(error);
+        deleteVarFail(error.message);
       });
   };
 };

@@ -22,12 +22,12 @@ const initState = {
   loadingUpdate: false,
   updateResponse: null,
   updateErrorResponse: null,
-  //Add var disp
-  varDisp: null,
-  loadingVarDisp: false,
-  //infoVariables
-  vars: null,
-  loadingVars: false,
+  //Añadir variable
+  var: null,
+  loadingVar: false,
+  //Eliminar variable
+  deleteVarResponse: null,
+  loadingVarDelete: false,
 };
 
 //Variables
@@ -144,46 +144,48 @@ const fetchMarcasFail = (state, action) => {
   });
 };
 
-//add var disp
-
-const addVarDispStart = (state) => {
+//Añadir variable a usuario
+const addVarStart = (state) => {
   return updateObject(state, {
-    loadingVarDisp: true,
+    loadingVar: true,
   });
 };
 
-const addVarDispSuccess = (state, action) => {
+const addVarSuccess = (state, action) => {
   return updateObject(state, {
-    varDisp: action.res,
-    loadingVarDisp: false,
+    var: action.res,
+    loadingVar: false,
   });
 };
 
-const addVarDispFail = (state, action) => {
+const addVarFail = (state, action) => {
   return updateObject(state, {
-    loadingVarDisp: true,
+    loadingVar: true,
     error: action.error,
   });
 };
 
-//Consultar variables
-const fetchVarsStart = (state) => {
-  return updateObject(state, { loadingVars: true });
-};
-
-const fetchVarsSuccess = (state, action) => {
+//Eliminar variable a usuario
+const deleteVarStart = (state) => {
   return updateObject(state, {
-    vars: action.vars,
-    loadingVars: false,
+    loadingVarDelete: true,
   });
 };
 
-const fetchVarsFail = (state, action) => {
+const deleteVarSuccess = (state, action) => {
   return updateObject(state, {
-    errorVar: action.error,
-    loadingVars: true,
+    deleteVarResponse: action.res,
+    loadingVarDelete: false,
   });
 };
+
+const deleteVarFail = (state, action) => {
+  return updateObject(state, {
+    loadingVarDelete: true,
+    error: action.error,
+  });
+};
+
 const reducer = (state = initState, action) => {
   switch (action.type) {
     //Variables
@@ -246,15 +248,25 @@ const reducer = (state = initState, action) => {
     case actionTypes.FETCH_MARCA_FAIL:
       return fetchMarcasFail(state, action);
 
-    //Marcas
-    case actionTypes.ADD_VAR_DISP_SUCCESS:
-      return addVarDispStart(state);
+    //Añadir variable
+    case actionTypes.ADD_VAR_SUCCESS:
+      return addVarStart(state);
 
-    case actionTypes.ADD_VAR_DISP_SUCCESS:
-      return addVarDispSuccess(state, action);
+    case actionTypes.ADD_VAR_SUCCESS:
+      return addVarSuccess(state, action);
 
-    case actionTypes.ADD_VAR_DISP_FAIL:
-      return addVarDispFail(state, action);
+    case actionTypes.ADD_VAR_FAIL:
+      return addVarFail(state, action);
+
+    //Eliminar variable
+    case actionTypes.DELETE_VAR_START:
+      return deleteVarStart(state);
+
+    case actionTypes.DELETE_VAR_START:
+      return deleteVarSuccess(state, action);
+
+    case actionTypes.DELETE_VAR_FAIL:
+      return deleteVarFail(state, action);
 
     default:
       return state;

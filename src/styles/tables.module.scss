@@ -33,3 +33,21 @@
     color: map-get($colors, blackMain);
   }
 }
+
+.Icon {
+  color: map-get($colors, blackMain);
+  cursor: pointer;
+}
+
+.varsHeader {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+
+  > span {
+    font-weight: 600;
+    color: map-get($colors, blackMain);
+  }
+}

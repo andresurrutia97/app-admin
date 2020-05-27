@@ -18,7 +18,7 @@ export class AñadirDispositivo extends Component {
     loading: true,
     lat: null,
     long: null,
-    loadingCoordenadas: true
+    loadingCoordenadas: true,
   };
 
   //Acciona el action creator que trae la informacion de los select de la base de datos
@@ -43,25 +43,24 @@ export class AñadirDispositivo extends Component {
         // console.log(updateData);
         this.setState({
           varForm: updateData,
-          loading: false
+          loading: false,
         });
       } else {
         this.setState({
           varForm: updatedForm,
-          loading: false
+          loading: false,
         });
       }
     }
-
+    console.log(this.state.formIsValid)
     if (
       this.state.lat &&
       this.state.lat &&
-      this.state.loadingCoordenadas &&
-      this.state.formIsValid
+      this.state.loadingCoordenadas
     ) {
       this.setState({
         formMapIsValid: true,
-        loadingCoordenadas: false
+        loadingCoordenadas: false,
       });
     }
   }
@@ -76,16 +75,16 @@ export class AñadirDispositivo extends Component {
     const newFOrm = updateObject(stateForm, {
       indicador: updateObject(stateForm.indicador, {
         elementConfig: updateObject(stateForm.indicador.elementConfig, {
-          options: indicatorArray
+          options: indicatorArray,
         }),
-        value: indicatorArray[0].value
+        value: indicatorArray[0].value,
       }),
       marca: updateObject(stateForm.marca, {
         elementConfig: updateObject(stateForm.marca.elementConfig, {
-          options: marcasArray
+          options: marcasArray,
         }),
-        value: marcasArray[0].value
-      })
+        value: marcasArray[0].value,
+      }),
     });
     return newFOrm;
   };
@@ -97,7 +96,7 @@ export class AñadirDispositivo extends Component {
     for (let el in array) {
       newData[el] = updateObject(array[el], {
         value: data[el],
-        valid: true
+        valid: true,
       });
     }
     // console.log(newData);
@@ -114,11 +113,11 @@ export class AñadirDispositivo extends Component {
         event.target.value,
         this.state.varForm[inputidentifier].validation
       ),
-      touched: true
+      touched: true,
     });
 
     const updatedVarForm = updateObject(this.state.varForm, {
-      [inputidentifier]: updatedFormElement
+      [inputidentifier]: updatedFormElement,
     });
 
     let formIsValid = true;
@@ -129,12 +128,12 @@ export class AñadirDispositivo extends Component {
 
     this.setState({
       formIsValid: formIsValid,
-      varForm: updatedVarForm
+      varForm: updatedVarForm,
     });
   };
 
   //Añadir variable
-  addVarHandler = event => {
+  addVarHandler = (event) => {
     event.preventDefault();
     const formData = {};
     for (let formEl in this.state.varForm) {
@@ -142,7 +141,7 @@ export class AñadirDispositivo extends Component {
     }
     const finalData = {
       ...formData,
-      coordenadas: { lat: this.state.lat, long: this.state.long }
+      coordenadas: { lat: this.state.lat, long: this.state.long },
     };
     console.log(finalData);
     this.props.addDisp(finalData);
@@ -161,7 +160,7 @@ export class AñadirDispositivo extends Component {
   };
 
   //actualizar variable
-  updateDispHandler = event => {
+  updateDispHandler = (event) => {
     event.preventDefault();
     const updatedInfo = {};
     for (let formEl in this.state.varForm) {
@@ -170,7 +169,7 @@ export class AñadirDispositivo extends Component {
     //crea una variable con toda la informacion del dispositivo
     const updatedInfoWithCoors = {
       ...updatedInfo,
-      coordenadas: { lat: this.state.lat, long: this.state.long }
+      coordenadas: { lat: this.state.lat, long: this.state.long },
     };
     // console.log(updatedInfoWithCoors);
 
@@ -184,11 +183,11 @@ export class AñadirDispositivo extends Component {
     for (let key in this.state.varForm) {
       formElementsArray.push({
         id: key,
-        config: this.state.varForm[key]
+        config: this.state.varForm[key],
       });
     }
 
-    let form = formElementsArray.map(el => {
+    let form = formElementsArray.map((el) => {
       let classes = styles.InputFull;
       if (!el.config.fullWidth) {
         classes = styles.InputMedium;
@@ -200,7 +199,7 @@ export class AñadirDispositivo extends Component {
             elementtype={el.config.elementType}
             elementConfig={el.config.elementConfig}
             value={el.config.value}
-            changed={event => this.inputChangedHandler(event, el.id)}
+            changed={(event) => this.inputChangedHandler(event, el.id)}
             shouldValidate={el.config.validation}
             invalid={!el.config.valid}
             touched={el.config.touched}
@@ -251,8 +250,8 @@ export class AñadirDispositivo extends Component {
                     ? this.addVarHandler
                     : this.updateDispHandler
                 }
-                type={"Success"}
-                disabled={!this.state.formMapIsValid}
+                btntype={"Success"}
+                disabled={this.props.updateMode ? !this.state.formMapIsValid && !this.state.formIsValid : !this.state.formMapIsValid || !this.state.formIsValid}
               >
                 Aceptar
               </Button>
@@ -266,16 +265,16 @@ export class AñadirDispositivo extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     indicators: state.disps.indicators,
-    marcas: state.disps.marcas
+    marcas: state.disps.marcas,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    onFetchInfo: () => dispatch(actions.fetchinfo())
+    onFetchInfo: () => dispatch(actions.fetchinfo()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(AñadirDispositivo);

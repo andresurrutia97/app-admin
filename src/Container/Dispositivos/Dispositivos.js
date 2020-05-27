@@ -62,6 +62,10 @@ export class Dispositivos extends Component {
     // this.messageResOpen();
   };
 
+  addVarHandler = () => {};
+
+  deleteVarhandler = () => {};
+
   render() {
     let disps = <Spinner />;
     if (!this.props.loadingDisps) {

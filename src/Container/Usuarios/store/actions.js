@@ -193,15 +193,57 @@ export const addVarFail = (error) => {
 export const addVar = (id, data) => {
   return (dispatch) => {
     dispatch(addVarStart());
+    console.log(data);
     axios
-      .post("/users/" + id + "/variables/" + ".json", data)
+      .put("/users/" + id + "/variables/" + data.id + ".json", data)
       .then((res) => {
         console.log(res);
+
         dispatch(addVarSuccess(res));
         dispatch(fetchUsers());
       })
       .catch((error) => {
         console.log(error);
+      });
+  };
+};
+
+//// Eliminar variable a usuario
+
+export const deleteVarStart = () => {
+  return {
+    type: actionTypes.DELETE_VAR_START,
+  };
+};
+
+export const deleteVarSuccess = (res) => {
+  return {
+    type: actionTypes.DELETE_VAR_SUCCESS,
+    res: res,
+  };
+};
+
+export const deleteVarFail = (error) => {
+  return {
+    type: actionTypes.DELETE_VAR_FAIL,
+    error: error,
+  };
+};
+
+export const deleteVar = (idUser, idVar) => {
+  return (dispatch) => {
+    dispatch(deleteVarStart());
+    axios
+      .delete("/users/" + idUser + "/variables/" + idVar + ".json")
+      .then((res) => {
+        console.log(res);
+
+        dispatch(deleteVarSuccess(res));
+        dispatch(fetchUsers());
+      })
+      .catch((error) => {
+        console.log(error);
+        deleteVarFail(error.message);
       });
   };
 };

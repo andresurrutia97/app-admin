@@ -131,6 +131,12 @@ export class Usuarios extends Component {
     // this.messageResOpen();
   };
 
+  deleteVarHandler = (id) => {
+    console.log(this.state.selectedUserId, id);
+    this.props.onDeleteVar(this.state.selectedUserId, id);
+    this.props.onFetchUserInfo();
+  };
+
   render() {
     let users = <Spinner />;
     if (!this.props.loadingUsers) {
@@ -149,6 +155,7 @@ export class Usuarios extends Component {
               userId={this.state.selectedUserId}
               data={this.props.varInfo}
               openAddVar={this.addVarModalHandler}
+              deleteVar={this.deleteVarHandler}
             />
           </div>
         </div>
@@ -256,6 +263,7 @@ const mapDispatchToProps = (dispatch) => {
     onDeleteUser: (id) => dispatch(actions.deleteUser(id)),
     onUpdateUser: (id, data) => dispatch(actions.updateUser(id, data)),
     onAddVar: (id, data) => dispatch(actions.addVar(id, data)),
+    onDeleteVar: (idUser, idVar) => dispatch(actions.deleteVar(idUser, idVar)),
   };
 };
 

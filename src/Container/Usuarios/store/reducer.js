@@ -21,6 +21,9 @@ const initState = {
   //Añadir variable
   var: null,
   loadingVar: false,
+  //Eliminar variable
+  deleteVarResponse: null,
+  loadingVarDelete: false,
 };
 
 const fetchUserStart = (state) => {
@@ -131,6 +134,27 @@ const addVarFail = (state, action) => {
   });
 };
 
+//Eliminar variable a usuario
+const deleteVarStart = (state) => {
+  return updateObject(state, {
+    loadingVarDelete: true,
+  });
+};
+
+const deleteVarSuccess = (state, action) => {
+  return updateObject(state, {
+    deleteVarResponse: action.res,
+    loadingVarDelete: false,
+  });
+};
+
+const deleteVarFail = (state, action) => {
+  return updateObject(state, {
+    loadingVarDelete: true,
+    error: action.error,
+  });
+};
+
 const reducer = (state = initState, action) => {
   switch (action.type) {
     //Buscar usuarios
@@ -186,6 +210,16 @@ const reducer = (state = initState, action) => {
 
     case actionTypes.ADD_VAR_FAIL:
       return addVarFail(state, action);
+
+    //Eliminar variable
+    case actionTypes.DELETE_VAR_START:
+      return deleteVarStart(state);
+
+    case actionTypes.DELETE_VAR_START:
+      return deleteVarSuccess(state, action);
+
+    case actionTypes.DELETE_VAR_FAIL:
+      return deleteVarFail(state, action);
 
     default:
       return state;

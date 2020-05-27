@@ -73,20 +73,33 @@ export class InfoDispositivo extends Component {
     // this.messageResOpen();
   };
 
-  //Añadir variable
-  addVarHandler = (data) => {
-    const id = this.dispInfo.id;
-    this.props.onAddVar("dispositivos", id, data);
-    this.props.history.push("/dispositivos");
-    // this.messageResOpen();
-  };
-
   //Funcion para borrar un dispositivo
-  deleteVarHandler = (id) => {
+  deleteDispHandler = (id) => {
     this.setState({ deleteMode: true, updateMode: false });
     this.props.onDeleteDisp(id);
     this.props.history.goBack();
     // this.messageResOpen();
+  };
+
+  //Añadir variable
+  addVarHandler = (data) => {
+    const id = this.dispInfo.id;
+    this.props.onAddVar(id, data);
+    setTimeout(() => {
+      this.props.history.push("/dispositivos");
+    }, 500);
+    //
+    // this.messageResOpen();
+  };
+
+  deleteVarHandler = (id) => {
+    const idDisp = this.dispInfo.id;
+    console.log(idDisp, id);
+    this.props.onDeleteVar(idDisp, id);
+    setTimeout(() => {
+      this.props.history.push("/dispositivos");
+    }, 500);
+    // this.props.onFetchUserInfo();
   };
 
   render() {
@@ -98,7 +111,7 @@ export class InfoDispositivo extends Component {
     const varData = this.dispInfo.variables;
     const coordenadas = this.dispInfo.coordenadas;
     // console.log(varData);
-    
+
     return (
       <div className={styles.Root}>
         <Modal open={this.state.addOpen} close={this.closeModalHandler}>
@@ -124,10 +137,20 @@ export class InfoDispositivo extends Component {
         <div className={styles.Header}>
           <h2>{nombre}</h2>
           <div className={styles.Buttons}>
-            <button onClick={() => this.deleteVarHandler(this.dispInfo.id)}>
-              eliminar
-            </button>
-            <button onClick={this.openUpdateDispHandler}>modificar</button>
+            <Button
+              small
+              btntype={"Cancel"}
+              clicked={() => this.deleteDispHandler(this.dispInfo.id)}
+            >
+              Eliminar
+            </Button>
+            <Button
+              small
+              btntype={"Success"}
+              clicked={this.openUpdateDispHandler}
+            >
+              Modificar
+            </Button>
           </div>
         </div>
         <div className={styles.newHr} />
@@ -156,8 +179,14 @@ export class InfoDispositivo extends Component {
             <div>{desc}</div>
           </div>
           <div className={styles.Content_varUbiItems}>
+            <div className={styles.Ubicacion}>
+              <h3>Ubicación</h3>
+              <div className={styles.Ubicacion_Map}>
+                <Map info={true} coor={coordenadas} />
+              </div>
+            </div>
             <div className={styles.Variables}>
-              <div className={styles.variablesHeader}>
+              {/* <div className={styles.variablesHeader}>
                 <h3>Variables</h3>
                 <Button
                   small
@@ -166,16 +195,14 @@ export class InfoDispositivo extends Component {
                 >
                   Añadir
                 </Button>
-              </div>
+              </div> */}
 
               <div className={styles.Variables_tabla}>
-                <Variables data={varData} />
-              </div>
-            </div>
-            <div className={styles.Ubicacion}>
-              <h3>Ubicación</h3>
-              <div className={styles.Ubicacion_Map}>
-                <Map info={true} coor={coordenadas} />
+                <Variables
+                  data={varData}
+                  openAddVar={this.addVarDispModalHandler}
+                  deleteVar={this.deleteVarHandler}
+                />
               </div>
             </div>
           </div>
@@ -196,8 +223,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onUpdateDisp: (id, data) => dispatch(actions.updateDisp(id, data)),
     onDeleteDisp: (id) => dispatch(actions.deleteDisp(id)),
-    onAddVar: (type, id, data) =>
-      dispatch(actionsAddVar.addVar(type, id, data)),
+    onAddVar: (id, data) => dispatch(actions.addVar(id, data)),
+    onDeleteVar: (idDisp, idVar) => dispatch(actions.deleteVar(idDisp, idVar)),
   };
 };
 

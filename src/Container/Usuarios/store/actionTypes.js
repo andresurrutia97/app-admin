@@ -13,12 +13,12 @@ export const ADD_USER_START = "ADD_USER";
 export const ADD_USER_SUCCES = "ADD_USER";
 export const ADD_USER_FAIL = "ADD_USER";
 
-//Añadir usuario
+//Eliminar usuario
 export const DELETE_USER_START = "DELETE_USER_START";
 export const DELETE_USER_SUCCES = "DELETE_USER_SUCCES";
 export const DELETE_USER_FAIL = "DELETE_USER_FAIL";
 
-//Añadir usuario
+//Modificar usuario
 export const UPDATE_USER_START = "UPDATE_USER_START";
 export const UPDATE_USER_SUCCES = "UPDATE_USER_SUCCES";
 export const UPDATE_USER_FAIL = "UPDATE_USER_FAIL";
@@ -27,3 +27,9 @@ export const UPDATE_USER_FAIL = "UPDATE_USER_FAIL";
 export const ADD_VAR_START = "ADD_VAR_START";
 export const ADD_VAR_SUCCESS = "ADD_VAR_SUCCESS";
 export const ADD_VAR_FAIL = "ADD_VAR_FAIL";
+
+//Eliminar variable a usuario
+export const DELETE_VAR_START = "DELETE_VAR_START";
+export const DELETE_VAR_SUCCESS = "DELETE_VAR_SUCCESS";
+export const DELETE_VAR_FAIL = "DELETE_VAR_FAIL";
+

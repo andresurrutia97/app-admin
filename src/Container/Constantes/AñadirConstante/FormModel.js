@@ -45,7 +45,7 @@ export default {
     elementName: "Descripción",
     elementConfig: {
       type: "text",
-      placeholder: "Variable",
+      placeholder: "Descripción",
     },
     value: "",
     validation: {

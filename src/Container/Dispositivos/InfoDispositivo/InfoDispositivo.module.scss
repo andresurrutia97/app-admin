@@ -30,6 +30,9 @@ $textFontSize: 14px;
 }
 
 .Buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px
 }
 
 .newHr {
@@ -40,6 +43,7 @@ $textFontSize: 14px;
 .Subtitle {
   color: map-get($colors, blackLighter);
   margin: 10px 0;
+  text-align: center;
 }
 
 .Content {
@@ -142,7 +146,12 @@ $textFontSize: 14px;
     color: map-get($colors, blackLighter);
     margin: 10px 0;
     margin-top: 20px;
+    text-align: left;
   }
+
+  .Variables_tabla {
+  margin-top: 40px;
+}
 }
 
 @media (min-width: 900px) {
