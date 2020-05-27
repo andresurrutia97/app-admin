@@ -1,0 +1,44 @@
+@import "../../../styles/global.module";
+
+.Container {
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 0px 0px 12px 4px rgba(0, 0, 0, 0.1);
+  padding: 30px 10px;
+  padding-bottom: 40px;
+  margin-bottom: 40px;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  position: relative;
+}
+
+.Title {
+  font-size: 16px;
+  font-weight: 600;
+  color: map-get($colors, blackMain);
+}
+
+.subTitle {
+  color: map-get($colors, blackMain);
+  margin-bottom: 20px;
+}
+
+.Btn {
+  position: absolute;
+  bottom: -17px;
+  width: 70%;
+  display: flex;
+  justify-content: center;
+}
+
+.Data {
+  margin: 30px;
+  margin-bottom: 10px;
+  padding: 10px 20px;
+  border: 1px solid map-get($colors, blackMain);
+  color: map-get($colors, blackMain);
+  border-radius: 7px;
+  font-size: 22px;
+  font-weight: 600;
+}

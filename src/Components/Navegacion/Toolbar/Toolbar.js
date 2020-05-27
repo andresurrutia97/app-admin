@@ -22,7 +22,7 @@ const Toolbar = props => {
         <div className={styles.icono}>
           <ToogleButton clicked={props.open} />
         </div>
-        <div className={styles.Titulo}>{titlePag()}</div>
+        {/* <div className={styles.Titulo}>{titlePag()}</div> */}
       </div>
     </div>
   );

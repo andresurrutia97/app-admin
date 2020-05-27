@@ -1,0 +1,40 @@
+@import "../../../styles/global.module";
+
+.Container {
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 0px 0px 12px 4px rgba(0, 0, 0, 0.1);
+  padding: 30px 10px;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}
+
+.Title {
+  font-size: 20px;
+  font-weight: 700;
+  color: map-get($colors, blackMain);
+  margin-bottom: 20px;
+}
+
+.Btn {
+  width: 80%;
+  display: flex;
+  justify-content: center;
+}
+
+.Data {
+  margin: 30px;
+  padding: 10px 20px;
+  border: 1px solid map-get($colors, blackMain);
+  color: map-get($colors, blackMain);
+  border-radius: 7px;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+@media (min-width: 600px) {
+  .Container {
+    width: 500px;
+  }
+}
